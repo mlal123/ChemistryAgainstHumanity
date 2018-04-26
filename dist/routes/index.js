@@ -121,7 +121,7 @@ class IndexRoute extends route_1.BaseRoute {
                 product: req.body.product.back,
                 active: true
             };
-            dbo.collection("reactions_dummy").insertOne(reaction_entry, function (err, res) {
+            dbo.collection("reactions").insertOne(reaction_entry, function (err, res) {
                 if (err)
                     throw err;
                 console.log('1 reaction inserted into reactions table');
