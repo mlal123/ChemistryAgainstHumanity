@@ -32,7 +32,7 @@ body {
     margin-right: 25%;
     border-collapse: separate;
     border-spacing: 10px;
-    margin-top: 15px;
+    /* margin-top: 15px; */
     /* width: 45%;
     height: 15%;
     margin: 0 auto;
@@ -41,6 +41,22 @@ body {
     float: left;
     margin-left: 27%;
     margin-top: 15px; */
+}
+
+#labels{
+    width: 50%;
+    height:10px;
+    margin-left: 25%;
+    margin-right: 25%;
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+
+#labels th{
+    text-align: center;
+    overflow:hidden;
+    height: 8px;
+    border-radius: 15px;   
 }
 
 .instructions{

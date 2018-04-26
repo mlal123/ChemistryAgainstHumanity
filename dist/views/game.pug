@@ -221,6 +221,7 @@ html
                         $('#div1').show();
                         $('#div2').show();
                         $('#submit').show();
+                        $('#labels').show();
                         $('#start_game').hide();
 
                         $.ajax({
@@ -424,19 +425,32 @@ html
                 </th>
             </tr>
         </table>
-
+        <table id="labels" style="display:none;"> 
+            <tr>
+                <th>
+                    <p>REACTANT</p>
+                </th>
+                <th class="symbol">
+                </th>
+                <th>
+                    <p>REAGENT</p>
+                </th>
+                <th class="symbol">
+                </th>
+                <th>
+                    <p>PRODUCT</p>
+                </th>
+            </tr>
+        </table>
         <table id="div2" style="display: none;" ondrop="drop(event)" ondragover="allowDrop(event)">
             <tr>
                 <th class='sub_box' id="reactant">
-                    <p>REACTANT</p>
                 </th>
                 <th class='symbol' id="plus">+ </th>
                 <th class='sub_box' id="reagent"> 
-                    <p>REAGENT</p>
                 </th>
                 <th class='symbol' id="arrow">=</th>
                 <th class='sub_box' id="product"> 
-                    <p>PRODUCT</p>
                 </th>
             </tr>
         </table>
