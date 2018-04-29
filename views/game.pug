@@ -4,82 +4,10 @@ html
         style
             include css/game.css
         script(src='http://code.jquery.com/jquery-latest.min.js')
+        script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
         script(src='https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js')
-<<<<<<< HEAD
-        script(type='text/javascript').
-                function allowDrop(ev) {
-                    ev.preventDefault();
-                }
-
-                function drag(ev) {
-                    ev.dataTransfer.setData("text", ev.target.id);
-                }
-
-                function drop(ev) {
-                    ev.preventDefault();
-                    var data = ev.dataTransfer.getData("text");
-                    ev.target.appendChild(document.getElementById(data));
-                }
-
-
-
-                //Modal Popup Instructions Functions
-                $(function(){ 
-                    $('.inst_button ').on('click',function(){
-                        $('.inst').css({
-                            'transform':'translateY(0)','z-index':'999'
-                        });
-    
-                     $('body').addClass('overlay');
-
-    
-                     $(this).css({
-                        'z-index':'-1'
-                     });
-    
-                    $('.inst > .close').on('click',function(){
-                        $(this).parent().css({
-                            'transform':'translateY(-300%)'
-                        });
-     
-                        $('body').removeClass('overlay');
-                            $(this).parent().siblings('.btn').css({
-                                'z-index':'1'
-                            });
-                    });
-                    });
-                });
-
-                //Modal Leaderboard button: 
-                $(function(){ 
-                    $('.lead_button').on('click',function(){
-                        $('.lead').css({
-                            'transform':'translateY(-125%)','z-index':'800'
-                        });
-    
-                     $('body').addClass('overlay');
-
-    
-                     $(this).css({
-                        'z-index':'-1'
-                     });
-    
-                    $('.lead > .close').on('click',function(){
-                        $(this).parent().css({
-                            'transform':'translateY(-400%)'
-                        });
-     
-                        $('body').removeClass('overlay');
-                            $(this).parent().siblings('.btn').css({
-                                'z-index':'1'
-                            });
-                    });
-                    });
-                });
-=======
         script 
             include js/game.js
->>>>>>> master
                 
 
     <body>
@@ -123,13 +51,13 @@ html
         </div>
 
         <button id='start_game'>Start Game</button>
-
-        <table id='div1' style='display:none;' ondrop='drop(event)' ondragover='allowDrop(event)'>
+                                                        
+        <table id='div1' style='display:none;'>
             <tr>
-                <th id='r1c1'>
+                <th id='r1c1' class='movable'>
                     <div class='card'><div class='front'></div><div class='back'></div></div>
                 </th>
-                <th id='r1c2'>
+                <th id='r1c2' class='movable'>
                     <div class='card'><div class='front'></div><div class='back'></div></div>
                 </th>
                 <th id='r1c3'>
@@ -186,15 +114,15 @@ html
         <table id="div2" style="display: none;" ondrop="drop(event)" ondragover="allowDrop(event)">
             <tr>
                 <th class='sub_box' id="reactant">
-                    <p>REACTANT</p>
+                    <div class='under-reactant'>REACTANT</div>
                 </th>
                 <th class='symbol' id="plus">+ </th>
                 <th class='sub_box' id="reagent"> 
-                    <p>REAGENT</p>
+                    <div class='reagent'>REAGENT</div>
                 </th>
                 <th class='symbol' id="arrow">=</th>
-                <th class='sub_box' id="product"> 
-                    <p>PRODUCT</p>
+                <th class='sub_box' id="product">
+                    <div class='product'>PRODUCT</div> 
                 </th>
             </tr>
         </table>

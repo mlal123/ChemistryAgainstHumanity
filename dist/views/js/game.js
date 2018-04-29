@@ -41,6 +41,49 @@ $(function(){
     });
     });
 });
+//draggable div object
+// $(function() {
+//     $("th").draggable({
+//         revert: funtion(event,ui){
+//             $(this).data("uiDraggable").originalPosition ={
+//                 top:0,
+//                 left:0
+//         };
+
+//         return !event;
+//     }
+//     );
+
+$(function() {
+    $(".card").draggable({
+        revert : function(event, ui) {
+            // on older version of jQuery use "draggable"
+            // $(this).data("draggable")
+            // on 2.x versions of jQuery use "ui-draggable"
+            // $(this).data("ui-draggable")
+            $(this).data("uiDraggable").originalPosition = {
+                top : 0,
+                left : 0
+            };
+            // return boolean
+            return !event;
+            // that evaluate like this:
+            // return event !== false ? false : true;
+        },
+        snap:".card",
+        //stack:".draggableCard"
+    });
+
+
+    $(".under-reactant").droppable({
+        //accept: '.draggable'
+        // drop: function(event, ui){
+        //     $(this).append(ui.draggable);
+        // }
+    });
+
+});
+//test
 
 //Leaderboard button: 
 $(function(){ 
