@@ -3,14 +3,15 @@ html
         link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"  type='text/css')
         style
             include css/game.css
-        script(src='http://code.jquery.com/jquery-latest.min.js')
-        script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
-        script(src='https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js')
-        script 
+        script
+            include js/jquery-latest.min.js
             include js/game.js
-                
-
-    <body>
+        script(src='https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js')
+    body
+        h1(id='username')=user
+        if isAdmin
+            form(method='POST' action='/admin')
+                input(type='submit' value='Admin Page' id='admin_button')
         <div class="content">
         <div id='header'>
             <img src="http://i68.tinypic.com/9bhxqg.png" alt="LOGO" width="25%" align="middle">
@@ -42,9 +43,9 @@ html
                 <div class="close"> X </div>
                 <table class = "leaderB">
                 <tr>
-                    <th>Spot<th>
-                    <th>Name<th>
-                    <th>Points<th>
+                    <th>Rank</th>
+                    <th>Onyen</th>
+                    <th>Points</th>
                 </tr>
                 </table>
             </div>
@@ -110,35 +111,44 @@ html
                 </th>
             </tr>
         </table>
-
-        <table id="div2" style="display: none;">
+        <table id="labels" style="display: none;"> 
+            <tr>
+                <th>
+                    <p>REACTANT</p>
+                </th>
+                <th class="symbol">
+                </th>
+                <th>
+                    <p>REAGENT</p>
+                </th>
+                <th class="symbol">
+                </th>
+                <th>
+                    <p>PRODUCT</p>
+                </th>
+            </tr>
+        </table>
+        <table id="div2" style="display: none;" ondrop="drop(event)" ondragover="allowDrop(event)">
             <tr>
                 <th class='sub_box' id="reactant">
-                    <p>REACTANT</p>
                 </th>
                 <th class='symbol' id="plus">+ </th>
                 <th class='sub_box' id="reagent"> 
-                    <p>REAGENT</p>
                 </th>
                 <th class='symbol' id="arrow">=</th>
-                <th class='sub_box' id="product">
-                    <p>PRODUCT</p> 
+                <th class='sub_box' id="product"> 
                 </th>
             </tr>
         </table>
         <div id='submit' style="display: none;">
             <button id='check'>Submit</button>
-            <button id='clear_answers' style='display: none;'>Clear</button>
+            <button id='clear_answers'>Clear</button>
             //-<button class='submit' id='check'>Submit</button>
         </div>
         <div id="score"></div>
         <div id="result"></div>
         </div>
 
-        <form action='/'>
-            <input type='submit' value='Home Page' />
+        <form action='/' onsubmit='return confirm("Do you wish to go back to the home page? Your progress will be lost");'>
+            <input type='submit' value='Home' />
         </form>
-        <form action='/admin'>
-            <input type='submit' value='Admin Page' />
-        </form>
-    </body>

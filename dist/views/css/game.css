@@ -32,7 +32,7 @@ body {
     margin-right: 25%;
     border-collapse: separate;
     border-spacing: 10px;
-    margin-top: 15px;
+    /* margin-top: 15px; */
     /* width: 45%;
     height: 15%;
     margin: 0 auto;
@@ -41,6 +41,22 @@ body {
     float: left;
     margin-left: 27%;
     margin-top: 15px; */
+}
+
+#labels{
+    width: 50%;
+    height:10px;
+    margin-left: 25%;
+    margin-right: 25%;
+    border-collapse: separate;
+    border-spacing: 10px;
+}
+
+#labels th{
+    text-align: center;
+    overflow:hidden;
+    height: 8px;
+    border-radius: 15px;   
 }
 
 .instructions{
@@ -128,7 +144,11 @@ ul li img {
     background-color: white;
     height: 100%;
     border-radius: 15px;
+<<<<<<< HEAD
     align-content: center; 
+=======
+    align-content: center;
+>>>>>>> master
 }
 .back{
     background-color: white;
@@ -163,6 +183,7 @@ p{
     font-size: 1vw;
     text-align: center;
     color: solid red;
+    /* Test Code */
 }
 
 
@@ -246,12 +267,12 @@ p{
     float: left;
 }
 
-#start_game {
+#start_game, #admin_button {
     width: 25%;
     margin-left: 38%;
 }
 
-.inst_button, .lead_button, .toggle, #check, #clear_answers, #start_game{
+.inst_button, .lead_button, .toggle, #check, #clear_answers, #start_game, #admin_button{
     -webkit-transform:scale(1);
     -ms-transform:scale(1);
     transform:scale(1);
@@ -269,11 +290,11 @@ p{
     margin-top: 5px;
 }
 
-.inst_button:focus, #check:focus, #clear_answers:focus .lead_button:focus, .toggle:focus, #start_game:focus{
+.inst_button:focus, #check:focus, #clear_answers:focus .lead_button:focus, .toggle:focus, #start_game:focus, #admin_button:focus{
     outline:none;
 }
 
-.inst_button:hover, #check:hover, #clear_answers:hover, .lead_button:hover, .toggle:hover, #start_game:hover{
+.inst_button:hover, #check:hover, #clear_answers:hover, .lead_button:hover, .toggle:hover, #start_game:hover, #admin_button:hover{
     -webkit-transform:scale(1.2);
   transform:scale(1.2);
   background:#24C6DC;
@@ -406,4 +427,8 @@ h1{
       background: rgba(0, 0, 0, .5);
      -webkit-transition:3s;
      transition:3s ;
+<<<<<<< HEAD
   }
+=======
+  }
+>>>>>>> master

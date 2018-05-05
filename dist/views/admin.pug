@@ -4,12 +4,10 @@ html
             include css/admin.css
             include css/dropzone.css
         script
-            include dropzone.js
-        script(src='https://code.jquery.com/jquery-latest.min.js')
-        script(src='https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js')
-        script
-            include js/admin.js
+            include js/jquery-latest.min.js
             include js/dropzone.js
+            include js/admin.js
+        script(src='https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.2/rollups/aes.js')
     body
         h1= title
         <p>Insert Reactions Here: <br>Enter a chemical reaction to see its depiction or add your own images</p>
@@ -36,10 +34,19 @@ html
         <button id='confirm' style='display: none;'>Confirm</button>
         <button id='clear' style='display: none;'>Clear</button>
         <br />
+<<<<<<< HEAD
         <button id='export'>Export Reactions</button>
         <a href="reactions.csv"><button id='download' style='display: none;'>Download File</button></a>
+=======
+        <button id='exportReactions'>Export Reactions</button>
+        <a href="reactions.csv"><button id='downloadReactions' style='display: none;'>Download Reactions</button></a>
+>>>>>>> master
         <p>File export currently not properly formatted (all in 1 line) --in progress--</p>
         <br />
+
+        <button id='exportPoints'>Export Points</button>
+        <a href='points.csv'><button id='downloadPoints' style='display: none;'>Download Points</button></a>
+        <button id='resetPoints'>Reset Points</button>
 
         <div id='instructions'>
             <p>Status: Dr. Moy, you are clear to upload reactions at this time</p>
@@ -84,6 +91,6 @@ html
         <form action='/'>
             <input type='submit' value='Home Page' />
         </form>
-        <form action='/game'>
+        <form action='/game' method='POST'>
             <input type='submit' value='Game Page' />
         </form>
