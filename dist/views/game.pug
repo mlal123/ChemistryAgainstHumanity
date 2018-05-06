@@ -8,7 +8,7 @@ html
             include js/game.js
         script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
         script(src='https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js')
-    body
+    <body>
         h1(id='username')=user
         if isAdmin
             form(method='POST' action='/admin')
@@ -145,8 +145,10 @@ html
         </div>
         <div id="score"></div>
         <div id="result"></div>
-        </div>
-
-        <form action='/' onsubmit='return confirm("Do you wish to go back to the home page? Your progress will be lost");'>
+         <form action='/' onsubmit='return confirm("Do you wish to go back to the home page? Your progress will be lost");'>
             <input type='submit' value='Home' />
         </form>
+        </div>
+
+       
+        </body>

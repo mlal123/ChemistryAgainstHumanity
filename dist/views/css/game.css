@@ -4,11 +4,12 @@ body {
     background: linear-gradient(to right, rgba(12, 88, 160, 0.863), #24C6DC);
     height: 100%;
     color:rgba(12, 88, 160, 0.863); 
-    height: 90%;
+    height: 100vh;
 }
 .content{
     width:100%;
-    height:90vh;
+    height:100%;
+    
 }
 
 * {
@@ -69,7 +70,7 @@ body {
 }
 
 .instructions p, li, ul{
-    color: green;
+    color: rgba(12, 88, 160, 0.863);;
     text-align: left;
     font-size: 1vw;
     text-transform: none;

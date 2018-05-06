@@ -200,7 +200,7 @@ class IndexRoute extends route_1.BaseRoute {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
-            dbo.collection("reactions").find({}).toArray(function (err, docs) {
+            dbo.collection("reactions_dummy").find({}).toArray(function (err, docs) {
                 var path = 'dist/public/reactions.csv';
                 var data = new Array();
                 data.push([" "]);
