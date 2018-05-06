@@ -303,7 +303,7 @@ export class IndexRoute extends BaseRoute {
         mongo.MongoClient.connect("mongodb://localhost:27017", function(err, db) {
             if (err) throw err;
             var dbo = db.db("chemistryagainsthumanity");
-            dbo.collection("reactions").find({}).toArray(function(err, docs) {
+            dbo.collection("reactions_dummy").find({}).toArray(function(err, docs) {
                 var path = 'dist/public/reactions.csv';
                 var data = new Array();
                 data.push([" "]); //this is needed to properly align data, not sure why

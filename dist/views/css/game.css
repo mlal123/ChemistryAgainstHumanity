@@ -4,10 +4,11 @@ body {
     background: linear-gradient(to right, rgba(12, 88, 160, 0.863), #24C6DC);
     height: 100%;
     color:rgba(12, 88, 160, 0.863); 
+    height: 90%;
 }
 .content{
     width:100%;
-    height:100%;
+    height:90vh;
 }
 
 * {
@@ -261,7 +262,7 @@ p{
 .sub_box{
     border: dashed;
     border-color: #24C6DC;
-    padding: 15px;
+    /* padding: 15px; */
     height: 75px;
     width: 25%;
  
