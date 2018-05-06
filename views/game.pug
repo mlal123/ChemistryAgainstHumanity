@@ -6,6 +6,7 @@ html
         script
             include js/jquery-latest.min.js
             include js/game.js
+        script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
         script(src='https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js')
     body
         h1(id='username')=user
@@ -128,7 +129,7 @@ html
                 </th>
             </tr>
         </table>
-        <table id="div2" style="display: none;" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <table id="div2" style="display: none;">
             <tr>
                 <th class='sub_box' id="reactant">
                 </th>

@@ -69,18 +69,17 @@ $(function() {
             // that evaluate like this:
             // return event !== false ? false : true;
         },
-        snap:".card",
-        //stack:".draggableCard"
+        //helper:"clone",
+        //containment:"document"
     });
 
-
-    $(".under-reactant").droppable({
-        accept: '.draggable',
-        drop: function(event, ui){
-        $(this).append(ui.draggable);
-        }
+    $(".sub_box").droppable({
+         drop: function(event, ui){
+            ui.draggable.detach().appendTo($(this));
+         },
+         accepts:"draggable",
+         
     });
-
 });
 //test
 

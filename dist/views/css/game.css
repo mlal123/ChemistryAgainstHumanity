@@ -144,11 +144,7 @@ ul li img {
     background-color: white;
     height: 100%;
     border-radius: 15px;
-<<<<<<< HEAD
-    align-content: center; 
-=======
     align-content: center;
->>>>>>> master
 }
 .back{
     background-color: white;
@@ -171,6 +167,8 @@ ul li img {
     align-content: center;
     border-radius: 15px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,.3);
+    overflow:visible;
+
     
     /* z-index:10;
     position: fixed; */
@@ -427,8 +425,4 @@ h1{
       background: rgba(0, 0, 0, .5);
      -webkit-transition:3s;
      transition:3s ;
-<<<<<<< HEAD
   }
-=======
-  }
->>>>>>> master

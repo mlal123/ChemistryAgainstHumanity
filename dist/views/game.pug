@@ -3,16 +3,10 @@ html
         link(href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" rel="stylesheet"  type='text/css')
         style
             include css/game.css
-<<<<<<< HEAD
-        script(src='http://code.jquery.com/jquery-latest.min.js')
-        script(src="https://code.jquery.com/ui/1.12.1/jquery-ui.js")
-        script(src='https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js')
-        script 
-=======
         script
             include js/jquery-latest.min.js
->>>>>>> master
             include js/game.js
+        script(src='https://code.jquery.com/ui/1.12.1/jquery-ui.js')
         script(src='https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js')
     body
         h1(id='username')=user
@@ -118,21 +112,6 @@ html
                 </th>
             </tr>
         </table>
-<<<<<<< HEAD
-
-        <table id="div2" style="display: none;">
-            <tr>
-                <th class='sub_box' id="reactant">
-                    <p>REACTANT</p>
-                </th>
-                <th class='symbol' id="plus">+ </th>
-                <th class='sub_box' id="reagent"> 
-                    <p>REAGENT</p>
-                </th>
-                <th class='symbol' id="arrow">=</th>
-                <th class='sub_box' id="product">
-                    <p>PRODUCT</p> 
-=======
         <table id="labels" style="display: none;"> 
             <tr>
                 <th>
@@ -150,7 +129,7 @@ html
                 </th>
             </tr>
         </table>
-        <table id="div2" style="display: none;" ondrop="drop(event)" ondragover="allowDrop(event)">
+        <table id="div2" style="display: none;">
             <tr>
                 <th class='sub_box' id="reactant">
                 </th>
@@ -159,7 +138,6 @@ html
                 </th>
                 <th class='symbol' id="arrow">=</th>
                 <th class='sub_box' id="product"> 
->>>>>>> master
                 </th>
             </tr>
         </table>

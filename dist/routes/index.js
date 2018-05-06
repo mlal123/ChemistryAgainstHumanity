@@ -201,10 +201,6 @@ class IndexRoute extends route_1.BaseRoute {
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
             dbo.collection("reactions").find({}).toArray(function (err, docs) {
-<<<<<<< HEAD
-                var fields = ['_id', 'reactant', 'reagent', 'product', 'active'];
-=======
->>>>>>> master
                 var path = 'dist/public/reactions.csv';
                 var data = new Array();
                 data.push([" "]);
