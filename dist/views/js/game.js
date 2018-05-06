@@ -1,18 +1,56 @@
-function allowDrop(ev) {
-    ev.preventDefault();
-}
+// function allowDrop(ev) {
+//     ev.preventDefault();
+// }
 
-function drag(ev) {
-    ev.dataTransfer.setData("text", ev.target.id);
-}
+// function drag(ev) {
+//     ev.dataTransfer.setData("text", ev.target.id);
+// }
 
-function drop(ev) {
-    ev.preventDefault();
-    var data = ev.dataTransfer.getData("text");
-    ev.target.appendChild(document.getElementById(data));
-}
+// function drop(ev) {
+//     ev.preventDefault();
+//     var data = ev.dataTransfer.getData("text");
+//     ev.target.appendChild(document.getElementById(data));
+// }
 
 
+$(function() {
+    $(".card").draggable({
+        revert : function(event, ui) {
+            // on older version of jQuery use "draggable"
+            // $(this).data("draggable")
+            // on 2.x versions of jQuery use "ui-draggable"
+            // $(this).data("ui-draggable")
+            $(this).data("uiDraggable").originalPosition = {
+                top : 0,
+                left : 0
+            };
+            // return boolean
+            return !event;
+            // that evaluate like this:
+            // return event !== false ? false : true;
+        }
+    });
+
+
+    $(".droppable").droppable({
+        drop: function(event, ui) {
+
+            let numOfChildren = $(this).children().length;
+            if (numOfChildren > 0) {
+                ui.draggable.css("top", 0).css("left", 0);
+                return;
+            }
+
+            ui.draggable.detach().appendTo($(this));
+            $(this).data("uiDroppable").originalPosition = {
+                top: 0,
+                down: 0
+            };
+            ui.draggable.css("top", 0).css("left", 0);
+        }
+    });
+
+});
 
 //Modal Popup Instructions Functions
 $(function(){ 
