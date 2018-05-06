@@ -73,12 +73,28 @@ $(function() {
         //containment:"document"
     });
 
-    $(".sub_box").droppable({
+    $(".droppable").droppable({
          drop: function(event, ui){
+
+             let numOfChildren = $(this).children().length;
+             if(numOfChildren > 0){
+                ui.draggable.css("top",0).css("left",0);
+                 return;
+             }
+
             ui.draggable.detach().appendTo($(this));
-         },
-         accepts:"draggable",
-         
+            $(this).data("uiDroppable").originalPosition ={
+                top:0,
+                down:0
+            };
+            ui.draggable.css("top",0).css("left",0);
+           // $.ui.ddmanager.current.cancelHelperRemoval = true;
+        // $.ui.draggable.prototype.destroy = function (ul, item) { }
+         }
+        //  accepts:".card",
+        //  classes:{
+        //      "ui-draggable": 
+        //  }
     });
 });
 //test
