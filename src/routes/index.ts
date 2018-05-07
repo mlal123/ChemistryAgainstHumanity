@@ -304,7 +304,7 @@ export class IndexRoute extends BaseRoute {
             if (err) throw err;
             var dbo = db.db("chemistryagainsthumanity");
             dbo.collection("reactions").find({}).toArray(function(err, docs) {
-                var path = 'dist/public/reactions.csv';
+                var path = 'views/csv/reactions.csv';
                 var data = new Array();
                 data.push([" "]); //this is needed to properly align data, not sure why
                 data.push(["id", "reactant", "reagent", "product\n"]);
@@ -324,7 +324,7 @@ export class IndexRoute extends BaseRoute {
             if (err) throw err;
             var dbo = db.db("chemistryagainsthumanity");
             dbo.collection("users").find({}).toArray(function(err, docs) {
-                var path = 'dist/public/points.csv';
+                var path = 'views/csv/points.csv';
                 var data = new Array();
                 data.push([" "]); //this is needed to properly align data, not sure why
                 data.push(["onyen", "points\n"]);
