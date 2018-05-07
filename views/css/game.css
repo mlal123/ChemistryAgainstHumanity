@@ -201,7 +201,7 @@ p{
     margin-left: 38%;
 }
 
-.inst_button, .lead_button, .toggle, #check, #clear_answers, #start_game, #admin_button{
+.inst_button, .lead_button, .toggle, #check, #clear_answers, #start_game, #admin_button, input{
     -webkit-transform:scale(1);
     -ms-transform:scale(1);
     transform:scale(1);
@@ -218,11 +218,11 @@ p{
     margin-top: 5px;
 }
 
-.inst_button:focus, #check:focus, #clear_answers:focus .lead_button:focus, .toggle:focus, #start_game:focus, #admin_button:focus{
+.inst_button:focus, #check:focus, #clear_answers:focus .lead_button:focus, .toggle:focus, #start_game:focus, #admin_button:focus, input:focus{
     outline:none;
 }
 
-.inst_button:hover, #check:hover, #clear_answers:hover, .lead_button:hover, .toggle:hover, #start_game:hover, #admin_button:hover{
+.inst_button:hover, #check:hover, #clear_answers:hover, .lead_button:hover, .toggle:hover, #start_game:hover, #admin_button:hover, input:hover{
     -webkit-transform:scale(1.2);
     transform:scale(1.2);
     background:#24C6DC;
