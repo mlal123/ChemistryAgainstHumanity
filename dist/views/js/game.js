@@ -144,12 +144,9 @@ $(document).ready(function() {
         practiceMode = true;
     }
 
-    let c = $(".card"); //flipping the images
+    let c = $(".card"); //flipping card objects
     c.flip({axis:'y', trigger:'click'});
 
-    let c1 = $(".card1");
-      c.flip({axis:'y', trigger:'click'});
-    //test 2nd column 
 
     var getOriginalPosition = function() {
         $('#div1 img').each( function() {

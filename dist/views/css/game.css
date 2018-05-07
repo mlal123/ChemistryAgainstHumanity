@@ -160,6 +160,7 @@ ul li img {
     top:50%;
     transform: translate(0, -50%);
     align-content: center;
+    text-align: center;
 }
 
 .card{
