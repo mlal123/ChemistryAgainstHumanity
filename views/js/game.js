@@ -1,5 +1,5 @@
 //Modal Popup Instructions Functions
-$(function(){ 
+$(function(){
     $('.inst_button ').on('click',function(){
         $('.inst').css({
             'transform':'translateY(0)','z-index':'999'
@@ -21,7 +21,7 @@ $(function(){
             $(this).parent().siblings('.btn').css({
                 'z-index':'1'
             });
-    });
+        });
     });
 });
 
@@ -35,24 +35,22 @@ $(function(){
      $('body').addClass('overlay');
 
 
-     $(this).css({
-        'z-index':'-1'
-     });
-
-    $('.lead > .close').on('click',function(){
-        $(this).parent().css({
-            'transform':'translateY(-400%)'
+        $(this).css({
+            'z-index':'-1'
         });
+
+        $('.lead > .close').on('click',function(){
+            $(this).parent().css({
+                'transform':'translateY(-400%)'
+            });
 
         $('body').removeClass('overlay');
             $(this).parent().siblings('.btn').css({
                 'z-index':'1'
             });
-    });
+        });
     });
 });
-
-//End draft
 
 $(document).ready(function() {
 
@@ -122,8 +120,8 @@ $(document).ready(function() {
     }
 
     var returnToOriginalPosition = function() {
-        //returns cards to previous positions (row#column#)
-        $('#div2 .card').each( function() {
+        //returns all cards to previous positions (row#column#)
+        $('.card').each( function() {
             $('#' + $(this).attr('data-op')).append($(this));
         });
         //initialize buttons
@@ -237,16 +235,20 @@ $(document).ready(function() {
         getOriginalPosition();
         $('.card').flip();
         dragAndDrop();
-        console.log(deck.slice(0,16));
+        //this is to see the array of the 1st 16 cards used to populate board
+        //console.log(deck.slice(0,16));
     }
 
     var updateGameboardUI = function(newCards) {
-        var j = 0;
+        var i = 0;
         if (typeof(newCards) != "undefined") {
-            $('#div2 .card').each( function() {
-                if (j < newCards.length) {
-                    $('#' + $(this).attr('data-op')).append(makeCard(newCards[j]));
-                j++;
+
+            $('#div1 th').each(function() {
+                if (i < newCards.length) {
+                    if ($(this).children().length == 0) {
+                        $(this).append(makeCard(newCards[i]));
+                        i++;
+                    }
                 }
             });
             $('.card').flip();
@@ -275,7 +277,7 @@ $(document).ready(function() {
         return false;
     }
 
-    //check if the drawn 16 cards contain duplicates and move to bottom of deck
+    //check if the drawn 16 cards contain duplicates and move to bottom of deck -- NOT 100% FUNCTIONAL
     var handleDuplicates = function(cards) {
 
         var unique = new Array(); //array of all unique cards
@@ -285,11 +287,13 @@ $(document).ready(function() {
                 unique.push(card['back'])
             } else {
                 indexOfDuplicates.push(i);
-                console.log("duplicate", card['back']);
+                //to find duplicate card name -- for future development
+                //console.log("duplicate", card['back']);
             }
         });
 
-        console.log("duplicates found at index", indexOfDuplicates);
+        //to find the index of duplicate cards for future development
+        //console.log("duplicates found at index", indexOfDuplicates);
 
         //move duplicate cards to bottom of deck ------- not 100% functional
         for (var i=0;i<indexOfDuplicates.length;i++) {
@@ -328,8 +332,9 @@ $(document).ready(function() {
 
     var checkAnswer = function(answer) {
 
-        console.log("user answer", answer);
-        console.log("solution set", solutions);
+        //used for testing
+        //console.log("user answer", answer);
+        //console.log("solution set", solutions);
 
         for (var i=0;i<solutions.length;i++) {
             if (answer['reactant'] == solutions[i]['reactant'] &&
@@ -390,12 +395,26 @@ $(document).ready(function() {
             });
 
             if (gameOver) {
+                $.ajax({
+                    url: '/updateLeaderboard',
+                    data: {
+                        onyen: $('#username').html(),
+                        points: score
+                    },
+                    method: 'POST',
+                    error: function(response) {
+                        console.log('error updating leaderboard');
+                    }
+                }).then(function(response) {
+                    console.log("game over and leaderboard updated");
+                });
+                //clear interval after 2 seconds to ensure leaderboard updates first
                 setTimeout(function() {
                     clearInterval(updateLeaderboard);
-                }, 300000);
+                }, 2000);
             }
         }, 300000);
-}
+    }
 
     $('#start_game').on("click", function(e) {
         e.preventDefault();
