@@ -65,6 +65,17 @@ body {
     position: center;
 }
 
+#score{
+    color: white;
+    font-size: 1.4vw;
+}
+
+#result{
+
+    color: white;
+    font-size: 1.4vw;
+}
+
 .instructions{
     width: 90%;
     margin-right: 5%;
