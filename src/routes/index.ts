@@ -161,7 +161,7 @@ export class IndexRoute extends BaseRoute {
                options.isAdmin = false;
            }
            
-           var host = "mongodb://localhost:27017";
+           var host = "chemistryagainsthumanity-5zhct.mongodb.net";
            mongo.MongoClient.connect(host, function(err, db) {
                if (err) throw err;
                var dbo = db.db("chemistryagainsthumanity");
@@ -233,7 +233,7 @@ export class IndexRoute extends BaseRoute {
     public addReaction(req: Request, res: Response, next: NextFunction) {
         console.log(req.body)
 
-        var host = "mongodb://localhost:27017";
+        var host = "chemistryagainsthumanity-5zhct.mongodb.net";
         mongo.MongoClient.connect(host, function(err, db) {
             if (err) throw err;
             var dbo = db.db("chemistryagainsthumanity");
@@ -273,7 +273,7 @@ export class IndexRoute extends BaseRoute {
     }
 	
     public generateCards(req: Request, res: Response, next: NextFunction) {
-        mongo.MongoClient.connect("mongodb://localhost:27017", function(err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function(err, db) {
             if (err) throw err;
             var dbo = db.db("chemistryagainsthumanity");
 
@@ -287,7 +287,7 @@ export class IndexRoute extends BaseRoute {
     }
 
     public generateSolutions(req: Request, res: Response, next: NextFunction) {
-        mongo.MongoClient.connect("mongodb://localhost:27017", function(err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function(err, db) {
             if (err) throw err;
             var dbo = db.db("chemistryagainsthumanity");
 
@@ -300,7 +300,7 @@ export class IndexRoute extends BaseRoute {
     }
 
     public exportReactions(req: Request, res: Response, next: NextFunction) {
-        mongo.MongoClient.connect("mongodb://localhost:27017", function(err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function(err, db) {
             if (err) throw err;
             var dbo = db.db("chemistryagainsthumanity");
             dbo.collection("reactions").find({}).toArray(function(err, docs) {
@@ -320,7 +320,7 @@ export class IndexRoute extends BaseRoute {
     }
 
     public exportPoints(req: Request, res: Response, next: NextFunction) {
-        mongo.MongoClient.connect("mongodb://localhost:27017", function(err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function(err, db) {
             if (err) throw err;
             var dbo = db.db("chemistryagainsthumanity");
             dbo.collection("users").find({}).toArray(function(err, docs) {
@@ -340,7 +340,7 @@ export class IndexRoute extends BaseRoute {
     }
 
     public resetPoints(req: Request, res: Response, next: NextFunction) {
-        mongo.MongoClient.connect("mongodb://localhost:27017", function(err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function(err, db) {
             if (err) throw err;
             var dbo = db.db("chemistryagainsthumanity");
             dbo.collection("users").updateMany({"points":{"$exists": true}}, {"$set": {"points": 0}}, function(err, res2) {
@@ -352,7 +352,7 @@ export class IndexRoute extends BaseRoute {
     }
 
     public getLeaderboard(req: Request, res: Response, next: NextFunction) {
-        mongo.MongoClient.connect("mongodb://localhost:27017", function(err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function(err, db) {
             if (err) throw err;
             var dbo = db.db("chemistryagainsthumanity");
             dbo.collection("users").find({}).sort({"points": -1}).toArray(function(err, res2) {
@@ -367,7 +367,7 @@ export class IndexRoute extends BaseRoute {
         console.log(req.body);
         var onyenToUpdate = req.body['onyen'];
         var points = parseFloat(req.body['points']);
-        mongo.MongoClient.connect("mongodb://localhost:27017", function(err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function(err, db) {
             if (err) throw err;
             var dbo = db.db("chemistryagainsthumanity");
             dbo.collection("users").update({"onyen": onyenToUpdate}, {"$set": {"points": points}}, function(err, res2) {
