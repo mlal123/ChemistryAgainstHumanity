@@ -2,8 +2,10 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 const route_1 = require("./route");
 const https = require("https");
-const mongo = require("mongodb");
+const mongo = require("mongodb").MongoClient;
 const fs = require('fs');
+const url = "mongodb+srv://admin:Password123@chemistryagainsthumanity-5zhct.mongodb.net";
+const dbName = "chemistryagainsthumanity"
 class IndexRoute extends route_1.BaseRoute {
     static create(router) {
         console.log("[IndexRoute::create] Creating index route.");
@@ -172,11 +174,11 @@ class IndexRoute extends route_1.BaseRoute {
         res.send(response);
     }
     generateCards(req, res, next) {
-        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function (err, db) {
+        mongo.MongoClient.connect(url, function (err, db) {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
-            dbo.collection("cards").find({}).toArray(function (err, res2) {
+            dbo.collection("users").find({}).toArray(function (err, res2) {
                 if (err)
                     throw err;
                 var response = JSON.stringify(res2);
@@ -185,11 +187,11 @@ class IndexRoute extends route_1.BaseRoute {
         });
     }
     generateSolutions(req, res, next) {
-        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function (err, db) {
+        mongo.MongoClient.connect("mongodb+srv://127.0.0.1:27017", function (err, db) {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
-            dbo.collection("reactions").find({ active: true }, { _id: 0, reactant: 1, "reagent": 1, "product": 1 }).toArray(function (err, res2) {
+            dbo.collection("users").find({ active: true }, { _id: 0, reactant: 1, "reagent": 1, "product": 1 }).toArray(function (err, res2) {
                 if (err)
                     throw err;
                 var response = JSON.stringify(res2);
@@ -253,7 +255,16 @@ class IndexRoute extends route_1.BaseRoute {
         });
     }
     getLeaderboard(req, res, next) {
-        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function (err, dbo) {
+        mongo.connect(url, function(err, client){
+            if (err) throw err;
+            var db = client.db(dbName);
+            db.collection("users").find({}).toArray((err, docs) =>{
+                if (err) throw err;
+                console.log(docs);
+                client.close();
+            });
+        });
+        /*mongo.MongoClient.connect("mongodb://127.0.0.1:27017", function (err, dbo) {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
@@ -262,8 +273,8 @@ class IndexRoute extends route_1.BaseRoute {
                     throw err;
                 var response = JSON.stringify(res2);
                 res.send(response);
-            });
-        });
+            }); 
+        });*/
     }
     updateLeaderboard(req, res, next) {
         console.log(req.body);
@@ -281,6 +292,6 @@ class IndexRoute extends route_1.BaseRoute {
             });
         });
     }
-    
+
 }
 exports.IndexRoute = IndexRoute;
