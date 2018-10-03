@@ -82,7 +82,7 @@ class IndexRoute extends route_1.BaseRoute {
             else {
                 options.isAdmin = false;
             }
-            var host = "mongodb://localhost:27017";
+            var host = "chemistryagainsthumanity-5zhct.mongodb.net";
             mongo.MongoClient.connect(host, function (err, db) {
                 if (err)
                     throw err;
@@ -136,7 +136,7 @@ class IndexRoute extends route_1.BaseRoute {
     }
     addReaction(req, res, next) {
         console.log(req.body);
-        var host = "mongodb://localhost:27017";
+        var host = "chemistryagainsthumanity-5zhct.mongodb.net";
         mongo.MongoClient.connect(host, function (err, db) {
             if (err)
                 throw err;
@@ -170,7 +170,7 @@ class IndexRoute extends route_1.BaseRoute {
         res.send(response);
     }
     generateCards(req, res, next) {
-        mongo.MongoClient.connect("mongodb://localhost:27017", function (err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function (err, db) {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
@@ -183,7 +183,7 @@ class IndexRoute extends route_1.BaseRoute {
         });
     }
     generateSolutions(req, res, next) {
-        mongo.MongoClient.connect("mongodb://localhost:27017", function (err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function (err, db) {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
@@ -196,7 +196,7 @@ class IndexRoute extends route_1.BaseRoute {
         });
     }
     exportReactions(req, res, next) {
-        mongo.MongoClient.connect("mongodb://localhost:27017", function (err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function (err, db) {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
@@ -217,7 +217,7 @@ class IndexRoute extends route_1.BaseRoute {
         });
     }
     exportPoints(req, res, next) {
-        mongo.MongoClient.connect("mongodb://localhost:27017", function (err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function (err, db) {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
@@ -238,7 +238,7 @@ class IndexRoute extends route_1.BaseRoute {
         });
     }
     resetPoints(req, res, next) {
-        mongo.MongoClient.connect("mongodb://localhost:27017", function (err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function (err, db) {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
@@ -251,7 +251,7 @@ class IndexRoute extends route_1.BaseRoute {
         });
     }
     getLeaderboard(req, res, next) {
-        mongo.MongoClient.connect("mongodb://localhost:27017", function (err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function (err, db) {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
@@ -267,7 +267,7 @@ class IndexRoute extends route_1.BaseRoute {
         console.log(req.body);
         var onyenToUpdate = req.body['onyen'];
         var points = parseFloat(req.body['points']);
-        mongo.MongoClient.connect("mongodb://localhost:27017", function (err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function (err, db) {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
