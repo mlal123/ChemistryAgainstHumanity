@@ -75,7 +75,8 @@ class IndexRoute extends route_1.BaseRoute {
                 || req.body.onyen == "renfro18"
                 || req.body.onyen == "csv17"
                 || req.body.onyen == "cmoy"
-                || req.body.onyen == "pozefsky") {
+                || req.body.onyen == "pozefsky"
+                || req.body.onyen == "mlal123") {
                 isAdmin = true;
                 options.isAdmin = true;
             }
@@ -109,6 +110,7 @@ class IndexRoute extends route_1.BaseRoute {
         };
         this.render(req, res, "admin", options);
     }
+
     getImage(req, res, next) {
         var json_obj = {};
         Object.keys(req.body).map(function (key) {
@@ -251,11 +253,11 @@ class IndexRoute extends route_1.BaseRoute {
         });
     }
     getLeaderboard(req, res, next) {
-        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function (err, db) {
+        mongo.MongoClient.connect("chemistryagainsthumanity-5zhct.mongodb.net", function (err, dbo) {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
-            dbo.collection("users").find({}).sort({ "points": -1 }).toArray(function (err, res2) {
+            dbo.collection("users").toArray(function (err, res2) {
                 if (err)
                     throw err;
                 var response = JSON.stringify(res2);
@@ -279,5 +281,6 @@ class IndexRoute extends route_1.BaseRoute {
             });
         });
     }
+    
 }
 exports.IndexRoute = IndexRoute;
