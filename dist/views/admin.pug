@@ -42,10 +42,6 @@ html
         <button id='exportPoints'>Export Points</button>
         <a href='points.csv'><button id='downloadPoints' style='display: none;'>Download Points</button></a>
         <button id='resetPoints'>Reset Points</button>
-
-        ul
-          each val in [1,2,3,4]
-            li= val
         
         <div id='instructions'>
             <p>Status: Dr. Moy, you are clear to upload reactions at this time</p>
@@ -85,8 +81,7 @@ html
                 <li>You may go to the "game" page to view your uploaded reactions and test out the game</li>
             </ul>
         </div>
-        
-
+      
         <form action='/'>
             <input type='submit' value='Home Page' />
         </form>
