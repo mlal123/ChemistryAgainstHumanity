@@ -176,7 +176,7 @@ class IndexRoute extends route_1.BaseRoute {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
-            dbo.collection("cards").find({}).toArray(function (err, res2) {
+            dbo.collection("cards").find({}, {_id: 0, name: 1, depiciton: 1, active: 0}).toArray(function (err, res2) {
                 if (err)
                     throw err;
                 var response = JSON.stringify(res2);
@@ -184,12 +184,12 @@ class IndexRoute extends route_1.BaseRoute {
             });
         });
     }
-    generateSolutions(req, res, next) {
+    generateSolutions(req, res, next) { // Need to filter for active solutions
         mongo.MongoClient.connect(url, function (err, db) {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
-            dbo.collection("reactions").find({ active: true }, { _id: 0, reactant: 1, "reagent": 1, "product": 1 }).toArray(function (err, res2) {
+            dbo.collection("reactions").find({ } , { _id: 0, reactant: 1, reagent: 1, product: 1, active: 0 }).toArray(function (err, res2) {
                 if (err)
                     throw err;
                 var response = JSON.stringify(res2);

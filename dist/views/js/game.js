@@ -1,5 +1,5 @@
 //Modal Popup Instructions Functions
-$(function(){ 
+$(function(){
     $('.inst_button ').on('click',function(){
         $('.inst').css({
             'transform':'translateY(0)','z-index':'999'
@@ -25,8 +25,8 @@ $(function(){
     });
 });
 
-//Modal Leaderboard button: 
-$(function(){ 
+//Modal Leaderboard button:
+$(function(){
     $('.lead_button').on('click',function(){
         $('.lead').css({
             'transform':'translateY(-125%)','z-index':'800'
@@ -92,7 +92,7 @@ $(document).ready(function() {
                 return !event;
             }
         });
-    
+
         $(".droppable").droppable({
             drop: function(event, ui) {
                 let numOfChildren = $(this).children().length;
@@ -107,7 +107,7 @@ $(document).ready(function() {
                     top: 0,
                     down: 0
                 };
-                
+
                 ui.draggable.css("top", 0).css("left", 0);
             }
         });
@@ -157,14 +157,14 @@ $(document).ready(function() {
     }
 
     var makeCard = function(card) {
-        return $("<div class='card'>" + 
-                    "<div class='front'>" + 
-                        "<img id=" + card['_id'] + " src=" + card['front'] + 
-                        " alt='" + card['back'] + "'>" + 
+        return $("<div class='card'>" +
+                    "<div class='front'>" +
+                        "<img id=" + card['_id'] + " src=" + card['front'] +
+                        " alt='" + card['back'] + "'>" +
                     "</div>" +
-                    "<div class='back'>" + 
-                        "<p>" + card['back'] + "</p>" + 
-                    "</div>" + 
+                    "<div class='back'>" +
+                        "<p>" + card['back'] + "</p>" +
+                    "</div>" +
                 "</div>");
     }
 
@@ -185,10 +185,12 @@ $(document).ready(function() {
                 console.log(response);
             }
         }).then( function(response) {
+          console.log("resonse(solutions): " + response)
             solutions = JSON.parse(response);
-
+            console.log("solutions: " + solutions);
             if (typeof(solutions) != "undefined" && typeof(deck) != "undefined") {
-                console.log("solutionExists", solutionExists(deck.slice(0,16)));
+              console.log("i here");
+              console.log("solutionExists", solutionExists(deck.slice(0,16)));
             }
         });
 
@@ -202,10 +204,15 @@ $(document).ready(function() {
             }
         }).then( function(response) {
             //response is json object of all cards from db
+            console.log("resonse (cards): " + response)
+
             deck = JSON.parse(response);
+            console.log("deck: " + deck);
+
             shuffle(deck);
 
             if (typeof(solutions) != "undefined") {
+              console.log("here");
                 while (!solutionExists(deck.slice(0,16))) {
                     shuffle(deck);
                 }
@@ -266,7 +273,7 @@ $(document).ready(function() {
         }
 
         for (var i=0;i<solutions.length;i++) {
-            if (cards.includes(solutions[i]['reactant']) && 
+            if (cards.includes(solutions[i]['reactant']) &&
                 cards.includes(solutions[i]['reagent']) &&
                 cards.includes(solutions[i]['product'])) {
                     return true;
@@ -346,7 +353,7 @@ $(document).ready(function() {
     }
 
     var generateLeaderboard = function() {
-        
+
         //clear leaderboard except 1st row
         $('table.leaderB tr').slice(1).remove();
 
