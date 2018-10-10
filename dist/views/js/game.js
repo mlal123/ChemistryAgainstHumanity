@@ -157,6 +157,7 @@ $(document).ready(function() {
     }
 
     var makeCard = function(card) {
+      console.log(card);
         return $("<div class='card'>" +
                     "<div class='front'>" +
                         "<img id=" + card['_id'] + " src=" + card['front'] +
@@ -187,10 +188,11 @@ $(document).ready(function() {
         }).then( function(response) {
           console.log("resonse(solutions): " + response)
             solutions = JSON.parse(response);
-            console.log("solutions: " + solutions);
+            console.log("***solutions: " + solutions[0].reactant);
+
             if (typeof(solutions) != "undefined" && typeof(deck) != "undefined") {
-              console.log("i here");
-              console.log("solutionExists", solutionExists(deck.slice(0,16)));
+              console.log("deck slice: " + deck.slice(0,16));
+              console.log("solutionExists: ", solutionExists(deck.slice(0,16)));
             }
         });
 
@@ -204,18 +206,22 @@ $(document).ready(function() {
             }
         }).then( function(response) {
             //response is json object of all cards from db
-            console.log("resonse (cards): " + response)
 
             deck = JSON.parse(response);
-            console.log("deck: " + deck);
+
 
             shuffle(deck);
 
             if (typeof(solutions) != "undefined") {
-              console.log("here");
+              var i = 0;
                 while (!solutionExists(deck.slice(0,16))) {
                     shuffle(deck);
+                    if ( i > 100 ) {
+                      break;
+                    }
+                    i++;
                 }
+
                 if (solutionExists(deck.slice(0,16))) {
                     console.log("solutionExists", solutionExists(deck.slice(0,16)));
                     handleDuplicates(deck.slice(0,16));
@@ -229,9 +235,15 @@ $(document).ready(function() {
 
     //update UI with cards
     var initializeGameboardUI = function() {
+      var iterations;
+      if (deck.length < 16) {
+        iterations = deck.length;
+      } else {
+        iterations = 16;
+      }
         var row_num = 1;
         var col_num = 1;
-        for (var i = 0;i < 16;i++) {
+        for (var i = 0;i < iterations;i++) {
             //table_pos = r#c#
             var table_pos = 'r' + row_num + 'c' + col_num;
             $('#div1 th#' + table_pos).append(makeCard(deck[i]));
@@ -270,7 +282,9 @@ $(document).ready(function() {
         var cards = new Array();
         for (var i=0;i<card_objs.length;i++) {
             cards.push(card_objs[i]['back']);
+          //  console.("card of i: " cards[i]);
         }
+
 
         for (var i=0;i<solutions.length;i++) {
             if (cards.includes(solutions[i]['reactant']) &&

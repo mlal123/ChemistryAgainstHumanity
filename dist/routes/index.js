@@ -114,14 +114,14 @@ class IndexRoute extends route_1.BaseRoute {
     getImage(req, res, next) {
         var json_obj = {};
         Object.keys(req.body).map(function (key) {
-            var chem = req.body[key]['name'];
+            var chem = req.body[key]['back'];
             var img_src;
-            if (typeof req.body[key]['depiction'] == 'undefined') {
+            if (typeof req.body[key]['front'] == 'undefined') {
                 var encoded = encodeURIComponent(chem);
                 img_src = "http://opsin.ch.cam.ac.uk/opsin/" + encoded + ".png";
             }
             else {
-                img_src = req.body[key]['depiction'];
+                img_src = req.body[key]['front'];
             }
             json_obj[key] = {
                 name: chem,
@@ -176,7 +176,7 @@ class IndexRoute extends route_1.BaseRoute {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
-            dbo.collection("cards").find({}, {_id: 0, name: 1, depiciton: 1, active: 0}).toArray(function (err, res2) {
+            dbo.collection("cards").find({}, {_id: 0, front: 1, back: 1, active: 0}).toArray(function (err, res2) {
                 if (err)
                     throw err;
                 var response = JSON.stringify(res2);
@@ -283,4 +283,6 @@ class IndexRoute extends route_1.BaseRoute {
         });
     }
 }
+
+
 exports.IndexRoute = IndexRoute;
