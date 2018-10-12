@@ -12,7 +12,7 @@ Dropzone.autoDiscover = false;
                 });
 
                 $('#nameToDepiction').on('submit', function(e) {
-                    e.preventDefault();            
+                    e.preventDefault();
 
                     var data = {
                         reactant: {
@@ -58,19 +58,19 @@ Dropzone.autoDiscover = false;
                         $('#confirm').show();
                         $('#clear').show();
                     });
-                    
+
                 });
 
                 //Save depictions to database
                 $('#confirm').click( function(e) {
                     e.preventDefault();
                     console.log("you clicked the confirm button");
-                    
+
                     var auth_prompt = window.prompt("Enter password");
 
                     var encrypted = CryptoJS.AES.encrypt(auth_prompt, "pw");
                     var decrypted = CryptoJS.AES.decrypt(encrypted, "pw");
-                    
+
                     //only allow upload to database if correct pw is entered
                     if (decrypted.toString() == "61646d696e") {
                         console.log("password correct");
@@ -166,7 +166,7 @@ $(document).ready(function() {
     });
 
     $('#nameToDepiction').on('submit', function(e) {
-        e.preventDefault();            
+        e.preventDefault();
 
         var data = {
             reactant: {
@@ -212,18 +212,18 @@ $(document).ready(function() {
             $('#confirm').show();
             $('#clear').show();
         });
-                    
+
     });
 
     //Save depictions to database
     $('#confirm').click( function(e) {
         e.preventDefault();
-                    
+
         var auth_prompt = window.prompt("Enter password");
 
         var encrypted = CryptoJS.AES.encrypt(auth_prompt, "pw");
         var decrypted = CryptoJS.AES.decrypt(encrypted, "pw");
-                    
+
         //only allow upload to database if correct pw is entered
         if (decrypted.toString() == "61646d696e") {
             console.log("password correct");
@@ -320,7 +320,7 @@ $(document).ready(function() {
             });
         });
     })
-
+    
     $('button#resetPoints').click(function(e) {
         if (confirm("Are you sure you wish to reset all points? You will not be able to export them later.")) {
             e.preventDefault();

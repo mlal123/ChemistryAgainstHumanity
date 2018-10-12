@@ -9,6 +9,34 @@ div > div.image {
     margin: 10px;
 }
 
+table th, td {
+  padding: 10px;
+  
+}
+
+table {
+  width: 100%;
+}
+
+
+#instructions {
+  display: inline-block;
+  height: 300px;
+  overflow-y: scroll;
+  width: 46%;
+  border: 2px solid black;
+  background-color: white;
+}
+
+.data {
+  display: inline-block;
+  height: 300px;
+  overflow: scroll;
+  width: 46%;
+  border: 2px solid black;
+  background-color: white;
+}
+
 div.image > img {
     text-align: center;
 }
@@ -47,7 +75,7 @@ h1{
     text-shadow: 3px 2px gray;
 }
 
-/* button{
+button{
     -webkit-transform:scale(1);
     -ms-transform:scale(1);
     transform:scale(1);
@@ -62,9 +90,9 @@ h1{
     transition:.5s;
     display:inline-block;
     margin-top: 5px;
-} */
+}
 
-/* button:focus{
+button:focus{
     outline:none;
 }
 
@@ -75,7 +103,7 @@ button:hover{
   -moz-box-shadow: 0px 0px 20px rgba(56,56,56,.2);
 -webkit-box-shadow: 0px 0px 20px rgba(56,56,56,.2);
 box-shadow: 0px 0px 20px rgba(56,56,56,.2);
-} */
+}
 input[type=submit]{
     -webkit-transform:scale(1);
     -ms-transform:scale(1);

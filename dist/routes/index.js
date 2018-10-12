@@ -105,11 +105,31 @@ class IndexRoute extends route_1.BaseRoute {
         }
         this.render(req, res, "game", options);
     }
+
     admin(req, res, next) {
+      var responseArray = new Array();
+      mongo.MongoClient.connect(url, function (err, db) {
+          if (err)
+              throw err;
+          var dbo = db.db("chemistryagainsthumanity");
+          dbo.collection("reactions").find({active: true } , { _id: 0, reactant: 1, reagent: 1, product: 1, active: 0 }).toArray(function (err, res2) {
+              if (err) { throw err; }
+              console.log("Within mongo (res2): " + JSON.stringify(res2));
+              responseArray = res2;
+              console.log("Within mongo (responseArray): " + JSON.stringify(responseArray));
+              res.render("admin", {responseArray: responseArray});
+              })
+            })
+
+        //    console.log(JSON.stringify("Outside mongo: " + responseArray));
+        //    this.render(req, res, "admin", responseArray);
+
+      /*
         let options = {
             "title": "Reaction Dashboard"
         };
         this.render(req, res, "admin", options);
+        */
     }
     getImage(req, res, next) {
         var json_obj = {};
@@ -176,7 +196,7 @@ class IndexRoute extends route_1.BaseRoute {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
-            dbo.collection("cards").find({}, {_id: 0, front: 1, back: 1, active: 0}).toArray(function (err, res2) {
+            dbo.collection("cards").find({ active: true }, {_id: 0, front: 1, back: 1, active: 0}).toArray(function (err, res2) {
                 if (err)
                     throw err;
                 var response = JSON.stringify(res2);
@@ -189,7 +209,7 @@ class IndexRoute extends route_1.BaseRoute {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
-            dbo.collection("reactions").find({ } , { _id: 0, reactant: 1, reagent: 1, product: 1, active: 0 }).toArray(function (err, res2) {
+            dbo.collection("reactions").find({active: true } , { _id: 0, reactant: 1, reagent: 1, product: 1, active: 0 }).toArray(function (err, res2) {
                 if (err)
                     throw err;
                 var response = JSON.stringify(res2);
