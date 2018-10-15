@@ -30,6 +30,7 @@ html
         button(id='exportReactions') Export Reactions
         a(href="reactions.csv" button id='downloadReactions' style='display: none;') Download Reactions
         |File export currently not properly formatted (all in 1 line) --in progress--
+        br
         div(id="instructions")
             p Status: Dr. Moy, you are clear to upload reactions at this time</p>
             p --Real database in use--
@@ -75,7 +76,7 @@ html
                 td #{reaction.reactant}
                 td #{reaction.reagent}
                 td #{reaction.product}                 
-        
+        br
         button(id='exportPoints') Export Points
           a(href='points.csv' button id='downloadPoints' style='display: none;') Download Points
         button(id='resetPoints') Reset

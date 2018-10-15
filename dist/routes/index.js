@@ -120,16 +120,6 @@ class IndexRoute extends route_1.BaseRoute {
               res.render("admin", {responseArray: responseArray});
               })
             })
-
-        //    console.log(JSON.stringify("Outside mongo: " + responseArray));
-        //    this.render(req, res, "admin", responseArray);
-
-      /*
-        let options = {
-            "title": "Reaction Dashboard"
-        };
-        this.render(req, res, "admin", options);
-        */
     }
     getImage(req, res, next) {
         var json_obj = {};

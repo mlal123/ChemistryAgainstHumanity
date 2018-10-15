@@ -11,107 +11,77 @@ html
     body
         h1(id='username')=user
         if isAdmin
-            form(method='POST' action='/admin')
-                input(type='submit' value='Admin Page' id='admin_button')
-        <div class="content">
-        <div id='header'>
-            <a href="/" > <img src="http://i68.tinypic.com/9bhxqg.png" alt="LOGO" width="25%" align="middle"> </a>
-        </div>
-        <div id='buttons'>
-            <button class="inst_button" > Instructions </button>
-            <button class="lead_button" > Leaderboard </button>
-            //- <button class="toggle"> Mode Toggle </button>
-            //- Instructions Code 
-            <div class="inst">
-                //- <h1> Instructions Here </h1>
-                <div class="close"> X </div>
-                <div class="instructions">
-                    <h1> Instructions</h1>
-                    <p>Welcome to Chemistry Against Humanity, a fun way to practice and learn Organic Chemistry reactions! 
-                    <br><br>Objective: Clear the cards by creating reactions from the 4x4 grid. Your score reflects the number of reactions you correctly match!
-                    <br><br>How to Play:
-                    <ul>
-                        <li>Drag the cards down to their respective boxes. Be careful! Order of the cards matters! </li>
-                        <li>Press submit when you think your reaction is correct. If it is right, your score will increase by 1. If wrong, your score will decrease by 0.5 and you can clear the cards by pressing "Clear"</li>
-                        <li>New cards will populate the board after a correct reaction</li>
-                        <li>Continue to make reactions until the board is empty!</li>
-                    </ul>
-                    </p>
-                </div>
-            </div>
-            //- Leaderboard Code
-            <div class="lead">
-                <div class="close"> X </div>
-                <table class = "leaderB">
-                <tr>
-                    <th>Rank</th>
-                    <th>Onyen</th>
-                    <th>Points</th>
-                </tr>
-                </table>
-            </div>
-        </div>
-
-        <button id='start_game'>Start Game</button>
-
-        <table id='div1' style='display:none;'>
-            <tr>
-                <th id='r1c1' class='droppable'></th>
-                <th id='r1c2' class='droppable'></th>
-                <th id='r1c3' class='droppable'></th>
-                <th id='r1c4' class='droppable'></th>
-            </tr>
-            <tr>
-                <th id='r2c1' class='droppable'>
-                </th>
-                <th id='r2c2' class='droppable'></th>
-                <th id='r2c3' class='droppable'></th>
-                <th id='r2c4' class='droppable'></th>
-            </tr>
-            <tr>
-                <th id='r3c1' class='droppable'></th>
-                <th id='r3c2' class='droppable'></th>
-                <th id='r3c3' class='droppable'></th>
-                <th id='r3c4' class='droppable'></th>
-            </tr>
-            <tr>
-                <th id='r4c1' class='droppable'></th>
-                <th id='r4c2' class='droppable'></th>
-                <th id='r4c3' class='droppable'></th>
-                <th id='r4c4' class='droppable'></th>
-            </tr>
-        </table>
-        <table id="labels" style="display: none;"> 
-            <tr>
-                <th>
-                    <p>REACTANT</p>
-                </th>
-                <th class="symbol">
-                </th>
-                <th>
-                    <p>REAGENT</p>
-                </th>
-                <th class="symbol">
-                </th>
-                <th>
-                    <p>PRODUCT</p>
-                </th>
-            </tr>
-        </table>
-
-        <table id="div2" style="display: none;">
-            <tr>
-                <th class='sub_box droppable' id="reactant"></th>
-                <th class='symbol' id="plus">+ </th>
-                <th class='sub_box droppable' id="reagent"></th>
-                <th class='symbol' id="arrow">=</th>
-                <th class='sub_box droppable' id="product"></th>
-            </tr>
-        </table>
-        <div id='submit' style="display: none;">
-            <button id='check'>Submit</button>
-            <button id='clear_answers'>Clear</button>
-        </div>
-        <div id="score"></div>
-        <div id="result"></div>
-        </div>
+          form(method='POST' action='/admin')
+              input(type='submit' value='Admin Page' id='admin_button')
+        div(class="content")
+          div(id='header')
+              <a href="/" > <img src="http://i68.tinypic.com/9bhxqg.png" alt="LOGO" width="25%" align="middle"> </a>
+          div(id='buttons')
+              button(class="inst_button") Instructions
+              button(class="lead_button") Leaderboard
+              div(class="inst")
+                div(class="close") X
+                div(class="instructions")
+                    h1 Instructions
+                    p Welcome to Chemistry Against Humanity, a fun way to practice and learn Organic Chemistry reactions! 
+                    br 
+                    p Objective: Clear the cards by creating reactions from the 4x4 grid. Your score reflects the number of reactions you correctly match!
+                    br 
+                    p How to Play:
+                    ul
+                        li Drag the cards down to their respective boxes. Be careful! Order of the cards matters!
+                        li Press submit when you think your reaction is correct. If it is right, your score will increase by 1. If wrong, your score will decrease by 0.5 and you can clear the cards by pressing "Clear"
+                        li New cards will populate the board after a correct reaction
+                        li Continue to make reactions until the board is empty!
+              div(class="lead")
+                div(class="close") X 
+                    table(class = "leaderB")
+                        tr
+                          th Rank
+                          th Onyen
+                          th Points
+          button(id='start_game') Start Game
+          table(id='div1' style='display:none;')
+              tr
+                th(id='r1c1' class='droppable')
+                th(id='r1c2' class='droppable')
+                th(id='r1c3' class='droppable')
+                th(id='r1c4' class='droppable')
+              tr
+                th(id='r2c1' class='droppable')
+                th(id='r2c2' class='droppable')
+                th(id='r2c3' class='droppable')
+                th(id='r2c4' class='droppable')
+              tr
+                th(id='r3c1' class='droppable')
+                th(id='r3c2' class='droppable')
+                th(id='r3c3' class='droppable')
+                th(id='r3c4' class='droppable')
+              tr
+                th(id='r4c1' class='droppable')
+                th(id='r4c2' class='droppable')
+                th(id='r4c3' class='droppable')
+                th(id='r4c4' class='droppable')
+          table(id="labels" style="display: none;")
+              tr
+                th
+                  | REACTANT
+                th(class="symbol")
+                th
+                  | REAGENT
+                th(class="symbol")
+                th
+                  | PRODUCT
+          table(id="div2" style="display: none;")
+              tr
+                th(class='sub_box droppable' id="reactant")
+                th(class='symbol' id="plus") +
+                th(class='sub_box droppable' id="reagent")
+                th(class='symbol' id="arrow") =
+                th(class='sub_box droppable' id="product")
+          div(id='submit' style="display: none;")
+              button(id='check') Submit
+              button(id='clear_answers') Clear
+          div(id="score")
+          div(id="result")
+      
