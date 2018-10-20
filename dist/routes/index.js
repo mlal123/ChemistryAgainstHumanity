@@ -210,7 +210,6 @@ class IndexRoute extends route_1.BaseRoute {
             dbo.collection("reactions").find({active: true } , { _id: 0, reactant: 1, reagent: 1, product: 1, active: 0 }).toArray(function (err, res2) {
                 if (err)
                     throw err;
-                //var response = JSON.stringify(res2);
                 var response = [];
                 for (var i = 0; i < res2.length; i++){
                     var r = res2[i];
@@ -218,6 +217,7 @@ class IndexRoute extends route_1.BaseRoute {
                     response.push(react);
                 }
                 res.send(response);
+
             });
         });
     }
