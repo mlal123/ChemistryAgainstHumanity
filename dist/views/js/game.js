@@ -157,7 +157,6 @@ $(document).ready(function() {
     }
 
     var makeCard = function(card) {
-      console.log(card);
         return $("<div class='card'>" +
                     "<div class='front'>" +
                         "<img id=" + card['_id'] + " src=" + card['front'] +
@@ -186,10 +185,8 @@ $(document).ready(function() {
                 console.log(response);
             }
         }).then( function(response) {
-          console.log("resonse(solutions): " + response)
-            solutions = JSON.parse(response);
-            console.log("***solutions: " + solutions[0].reactant);
-
+            //solutions = JSON.parse(response);
+            solutions = response;
             if (typeof(solutions) != "undefined" && typeof(deck) != "undefined") {
               console.log("deck slice: " + deck.slice(0,16));
               console.log("solutionExists: ", solutionExists(deck.slice(0,16)));
@@ -206,12 +203,9 @@ $(document).ready(function() {
             }
         }).then( function(response) {
             //response is json object of all cards from db
-
-            deck = JSON.parse(response);
-
-
+            deck = response;
+            //deck = JSON.parse(response);
             shuffle(deck);
-
             if (typeof(solutions) != "undefined") {
               var i = 0;
                 while (!solutionExists(deck.slice(0,16))) {
@@ -256,7 +250,6 @@ $(document).ready(function() {
         getOriginalPosition();
         $('.card').flip();
         dragAndDrop();
-        console.log(deck.slice(0,16));
     }
 
     var updateGameboardUI = function(newCards) {
@@ -336,7 +329,6 @@ $(document).ready(function() {
             $('#result').append("<p>Correct</p>")
             //draw new cards to replace
             var newCards = drawCards(3);
-            console.log("newCards", newCards);
             //append new cards to grid
             setTimeout(function(){updateGameboardUI(newCards)}, 1500);
         } else {
@@ -348,10 +340,6 @@ $(document).ready(function() {
     }
 
     var checkAnswer = function(answer) {
-
-        console.log("user answer", answer);
-        console.log("solution set", solutions);
-
         for (var i=0;i<solutions.length;i++) {
             if (answer['reactant'] == solutions[i]['reactant'] &&
             answer['reagent'] == solutions[i]['reagent'] &&

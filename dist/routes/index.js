@@ -4,6 +4,8 @@ const route_1 = require("./route");
 const https = require("https");
 const mongo = require("mongodb");
 const fs = require('fs');
+const card = require('./card.js');
+const reaction = require('./reaction.js');
 var url = "mongodb+srv://admin:Password123@chemistryagainsthumanity-5zhct.mongodb.net";
 
 class IndexRoute extends route_1.BaseRoute {
@@ -189,7 +191,13 @@ class IndexRoute extends route_1.BaseRoute {
             dbo.collection("cards").find({ active: true }, {_id: 0, front: 1, back: 1, active: 0}).toArray(function (err, res2) {
                 if (err)
                     throw err;
-                var response = JSON.stringify(res2);
+                var response = [];
+                for (var i = 0; i < res2.length; i++){
+                    var r = res2[i];
+                    var c = new card.Card(r.back, r.front, r.active);
+                    response.push(c);
+                }
+                //var response = JSON.stringify(res2);
                 res.send(response);
             });
         });
@@ -202,7 +210,13 @@ class IndexRoute extends route_1.BaseRoute {
             dbo.collection("reactions").find({active: true } , { _id: 0, reactant: 1, reagent: 1, product: 1, active: 0 }).toArray(function (err, res2) {
                 if (err)
                     throw err;
-                var response = JSON.stringify(res2);
+                //var response = JSON.stringify(res2);
+                var response = [];
+                for (var i = 0; i < res2.length; i++){
+                    var r = res2[i];
+                    var react = new reaction.Reaction(r.reactant, r.reagent, r.product, r.active);
+                    response.push(react);
+                }
                 res.send(response);
             });
         });
