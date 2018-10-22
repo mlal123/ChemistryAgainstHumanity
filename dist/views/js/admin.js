@@ -12,22 +12,23 @@ $(document).ready(function() {
 
     $('#nameToDepiction').on('submit', function(e) {
         e.preventDefault();
-
         var data = {
             reactant: {
             name: $('#reactant').val(),
-            depiction: $('#depiction #reactant-img img').attr('src')
+            depiction: $('#depiction #reactant-img img').attr('src'),
+            active: true
        },
             reagent: {
                 name: $('#reagent').val(),
-                depiction: $('#depiction #reagent-img img').attr('src')
+                depiction: $('#depiction #reagent-img img').attr('src'),
+                active: true
                 },
             product: {
                 name: $('#product').val(),
-                depiction: $('#depiction #product-img img').attr('src')
+                depiction: $('#depiction #product-img img').attr('src'),
+                active: true
             }
         }
-
         $.ajax({
             url:'/getImage',
             data: data,
@@ -76,18 +77,20 @@ $(document).ready(function() {
             var cards = {
                 reactant: {
                     front: $('#reactant-img img').attr('src'),
-                    back: $('#reactant').val().toLowerCase()
+                    back: $('#reactant').val().toLowerCase(),
+                    active: true
                 },
                 reagent: {
                     front: $('#reagent-img img').attr('src'),
-                    back: $('#reagent').val().toLowerCase()
+                    back: $('#reagent').val().toLowerCase(),
+                    active: true
                 },
                 product: {
                     front: $('#product-img img').attr('src'),
-                    back: $('#product').val().toLowerCase()
+                    back: $('#product').val().toLowerCase(),
+                    active: true
                 }
             }
-
             $.ajax({
                 url: '/addReaction',
                 data: cards,

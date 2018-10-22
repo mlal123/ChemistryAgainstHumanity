@@ -127,19 +127,20 @@ class IndexRoute extends route_1.BaseRoute {
     getImage(req, res, next) {
         var json_obj = {};
         Object.keys(req.body).map(function (key) {
-            var chem = req.body[key]['back'];
-            //console.log(chem);
+            var chem = req.body[key]['name'];
+            var isActive = req.body[key]['active'];
             var img_src;
-            if (typeof req.body[key]['front'] == 'undefined') {
+            if (typeof req.body[key]['depiction'] == 'undefined') {
                 var encoded = encodeURIComponent(chem);
-                img_src = "http://opsin.ch.cam.ac.uk/opsin/" + encoded + ".png";
+                img_src = "/SteveenBranch/" + encoded + ".png";
             }
             else {
-                img_src = req.body[key]['front'];
+                img_src = req.body[key]['depiction'];
             }
             json_obj[key] = {
                 name: chem,
-                depiction: img_src
+                depiction: img_src,
+                active: isActive
             };
         });
         var response = JSON.stringify(json_obj);
@@ -170,9 +171,11 @@ class IndexRoute extends route_1.BaseRoute {
             });
             var cards_entry = new Array();
             Object.keys(req.body).map(function (key) {
+                console.log("loggin active " + req.body[key]['active']);
                 var card_obj = {
                     front: req.body[key]['front'],
-                    back: req.body[key]['back']
+                    back: req.body[key]['back'],
+                    active: true
                 };
                 cards_entry.push(card_obj);
             });
