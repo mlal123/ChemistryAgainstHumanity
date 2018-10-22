@@ -144,7 +144,7 @@ class IndexRoute extends route_1.BaseRoute {
             };
         });
         var response = JSON.stringify(json_obj);
-        console.log("response = " + response);
+        //console.log("response = " + response);
         res.send(response);
     }
     game(req, res, next) {
@@ -152,8 +152,6 @@ class IndexRoute extends route_1.BaseRoute {
         this.render(req, res, "game", options);
     }
     addReaction(req, res, next) {
-        console.log(req.body);
-
         mongo.MongoClient.connect(url, function (err, db) {
             if (err)
                 throw err;
@@ -165,18 +163,30 @@ class IndexRoute extends route_1.BaseRoute {
                 active: true
             };
             dbo.collection("reactions").insertOne(reaction_entry, function (err, res) {
-                if (err)
-                    throw err;
-                console.log('1 reaction inserted into reactions table');
+                if (err){
+                    console.log(err)
+                }else{
+                        console.log('1 reaction inserted into reactions table');
+                    }
             });
             var cards_entry = new Array();
             Object.keys(req.body).map(function (key) {
-                console.log("loggin active " + req.body[key]['active']);
+                var back = req.body[key]['back'];
+                var image = req.body[key]['front'];
+                var encoded = encodeURIComponent(back);
+                var img_src = "/SteveenBranch/" + encoded + ".png";
+                var img_src_to_file = "dist/public/SteveenBranch/" + encoded + ".png";
+                var base64Data = image.replace(/^data:image\/png;base64,/, "");
+                fs.writeFile(img_src_to_file, base64Data, 'base64', function(err){
+                    if (err)
+                        console.log(err);
+                });
                 var card_obj = {
-                    front: req.body[key]['front'],
+                    front: img_src,
                     back: req.body[key]['back'],
                     active: true
                 };
+
                 cards_entry.push(card_obj);
             });
             dbo.collection("cards").insertMany(cards_entry, function (err, res) {
