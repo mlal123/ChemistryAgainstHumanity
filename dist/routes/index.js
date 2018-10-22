@@ -4,6 +4,8 @@ const route_1 = require("./route");
 const https = require("https");
 const mongo = require("mongodb");
 const fs = require('fs');
+const card = require('./card.js');
+const reaction = require('./reaction.js');
 var url = "mongodb+srv://admin:Password123@chemistryagainsthumanity-5zhct.mongodb.net";
 
 class IndexRoute extends route_1.BaseRoute {
@@ -77,7 +79,8 @@ class IndexRoute extends route_1.BaseRoute {
                 || req.body.onyen == "renfro18"
                 || req.body.onyen == "csv17"
                 || req.body.onyen == "cmoy"
-                || req.body.onyen == "pozefsky") {
+                || req.body.onyen == "pozefsky"
+                || req.body.onyen == "mlal123") {
                 isAdmin = true;
                 options.isAdmin = true;
             }
@@ -114,9 +117,9 @@ class IndexRoute extends route_1.BaseRoute {
           var dbo = db.db("chemistryagainsthumanity");
           dbo.collection("reactions").find({active: true } , { _id: 0, reactant: 1, reagent: 1, product: 1, active: 0 }).toArray(function (err, res2) {
               if (err) { throw err; }
-              console.log("Within mongo (res2): " + JSON.stringify(res2));
+              //console.log("Within mongo (res2): " + JSON.stringify(res2));
               responseArray = res2;
-              console.log("Within mongo (responseArray): " + JSON.stringify(responseArray));
+              //console.log("Within mongo (responseArray): " + JSON.stringify(responseArray));
               res.render("admin", {responseArray: responseArray});
               })
             })
@@ -124,18 +127,20 @@ class IndexRoute extends route_1.BaseRoute {
     getImage(req, res, next) {
         var json_obj = {};
         Object.keys(req.body).map(function (key) {
-            var chem = req.body[key]['back'];
+            var chem = req.body[key]['name'];
+            var isActive = req.body[key]['active'];
             var img_src;
-            if (typeof req.body[key]['front'] == 'undefined') {
+            if (typeof req.body[key]['depiction'] == 'undefined') {
                 var encoded = encodeURIComponent(chem);
-                img_src = "http://opsin.ch.cam.ac.uk/opsin/" + encoded + ".png";
+                img_src = "/SteveenBranch/" + encoded + ".png";
             }
             else {
-                img_src = req.body[key]['front'];
+                img_src = req.body[key]['depiction'];
             }
             json_obj[key] = {
                 name: chem,
-                depiction: img_src
+                depiction: img_src,
+                active: isActive
             };
         });
         var response = JSON.stringify(json_obj);
@@ -166,9 +171,11 @@ class IndexRoute extends route_1.BaseRoute {
             });
             var cards_entry = new Array();
             Object.keys(req.body).map(function (key) {
+                console.log("loggin active " + req.body[key]['active']);
                 var card_obj = {
                     front: req.body[key]['front'],
-                    back: req.body[key]['back']
+                    back: req.body[key]['back'],
+                    active: true
                 };
                 cards_entry.push(card_obj);
             });
@@ -189,7 +196,13 @@ class IndexRoute extends route_1.BaseRoute {
             dbo.collection("cards").find({ active: true }, {_id: 0, front: 1, back: 1, active: 0}).toArray(function (err, res2) {
                 if (err)
                     throw err;
-                var response = JSON.stringify(res2);
+                var response = [];
+                for (var i = 0; i < res2.length; i++){
+                    var r = res2[i];
+                    var c = new card.Card(r.back, r.front, r.active);
+                    response.push(c);
+                }
+                //var response = JSON.stringify(res2);
                 res.send(response);
             });
         });
@@ -203,8 +216,14 @@ class IndexRoute extends route_1.BaseRoute {
             dbo.collection("reactions").find({active: true } , { _id: 0, reactant: 1, reagent: 1, product: 1, active: 0 }).toArray(function (err, res2) {
                 if (err)
                     throw err;
-                var response = JSON.stringify(res2);
+                var response = [];
+                for (var i = 0; i < res2.length; i++){
+                    var r = res2[i];
+                    var react = new reaction.Reaction(r.reactant, r.reagent, r.product, r.active);
+                    response.push(react);
+                }
                 res.send(response);
+
             });
         });
     }

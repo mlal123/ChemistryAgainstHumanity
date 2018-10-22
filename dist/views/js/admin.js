@@ -1,159 +1,4 @@
 Dropzone.autoDiscover = false;
-<<<<<<< HEAD
-            $(document).ready(function() {
-
-                $('#depiction > div').each( function() {
-                    var dropzone = new Dropzone('#' + this.id, {
-                        url: '/',
-                        uploadMultiple: false,
-                        acceptedFiles: '.png',
-                        dictDefaultMessage: 'Drag and drop or click to choose file'
-                    });
-                });
-
-                $('#nameToDepiction').on('submit', function(e) {
-                    e.preventDefault();
-
-                    var data = {
-                        reactant: {
-                            name: $('#reactant').val(),
-                            depiction: $('#depiction #reactant-img img').attr('src')
-                        },
-                        reagent: {
-                            name: $('#reagent').val(),
-                            depiction: $('#depiction #reagent-img img').attr('src')
-                        },
-                        product: {
-                            name: $('#product').val(),
-                            depiction: $('#depiction #product-img img').attr('src')
-                        }
-                    }
-
-                    $.ajax({
-                        url:'/getImage',
-                        data: data,
-                        method: 'POST',
-                        error: function(response) {
-                            console.log("error in ajax call");
-                        }
-                    }).then(function(response) {
-
-                        //Append depictions to page
-                        var json_obj = JSON.parse(response);
-                        //if currently no depiction is displayed
-                        if ($('#reactant-img').children().length == 2) {
-                            $('#reactant-img .dz-message').hide();
-                            $('#reactant-img').append($("<img id='reactant_src'src=" + json_obj['reactant']['depiction'] + " alt=" + "'" + json_obj['reactant']['name'] + "'>"));
-                        }
-                        if ($('#reagent-img').children().length == 2) {
-                            $('#reagent-img .dz-message').hide();
-                            $('#reagent-img').append($("<img id='reagent_src'src=" + json_obj['reagent']['depiction'] + " alt=" + "'" + json_obj['reagent']['name'] + "'>"));
-                        }
-                        if ($('#product-img').children().length == 2) {
-                            $('#product-img .dz-message').hide();
-                            $('#product-img').append($("<img id='product_src'src=" + json_obj['product']['depiction'] + " alt=" + "'" + json_obj['product']['name'] + "'>"));
-                        }
-
-                        //show the "confirm reaction" button for database upload
-                        $('#confirm').show();
-                        $('#clear').show();
-                    });
-
-                });
-
-                //Save depictions to database
-                $('#confirm').click( function(e) {
-                    e.preventDefault();
-                    console.log("you clicked the confirm button");
-
-                    var auth_prompt = window.prompt("Enter password");
-
-                    var encrypted = CryptoJS.AES.encrypt(auth_prompt, "pw");
-                    var decrypted = CryptoJS.AES.decrypt(encrypted, "pw");
-
-                    //only allow upload to database if correct pw is entered
-                    if (decrypted.toString() == "61646d696e") {
-                        console.log("password correct");
-
-                        var cards = {
-                            reactant: {
-                                front: $('#reactant-img img').attr('src'),
-                                back: $('#reactant').val()
-                            },
-                            reagent: {
-                                front: $('#reagent-img img').attr('src'),
-                                back: $('#reagent').val()
-                            },
-                            product: {
-                                front: $('#product-img img').attr('src'),
-                                back: $('#product').val()
-                            }
-                        }
-
-                        $.ajax({
-                            url: '/addReaction',
-                            data: cards,
-                            method: 'POST',
-                            error: function(response) {
-                                console.log('error in ajax call');
-                            }
-                        }).then( function(response) {
-                            console.log('done');
-                            $('#confirm').hide();
-                        });
-
-                        alert("Reaction uploaded");
-                        $('#depiction img').remove();
-                        $('#depiction .dz-preview').remove();
-                        $('#depiction .dropzone').removeClass("dz-started");
-                        $('#depiction .dz-message').show()
-                        $('#confirm').hide();
-                        $('#clear').hide();
-                        $('#nameToDepiction')[0].reset();
-                    } else {
-                        alert("Password incorrect.  Upload failed.");
-                    }
-                });
-
-                $('#clear').click( function(e) {
-                    e.preventDefault();
-                    $('#depiction img').remove();
-                    $('#depiction .dz-preview').remove();
-                    $('#depiction .dropzone').removeClass("dz-started");
-                    $('#depiction .dz-message').show();
-                    $('#confirm').hide()
-                    $('#nameToDepiction')[0].reset();
-                    $(this).hide();
-                });
-
-                $('button.x').click( function(e) {
-                    e.preventDefault();
-                    var parent = $(this).parent().attr('id');
-                    $('#' + parent + ' img').remove();
-                    $('#' + parent).removeClass('dz-started');
-                    $('#' + parent + ' .dz-preview').remove();
-                    $('#' + parent + ' .dz-message').show();
-                });
-
-                $('button#export').click( function(e) {
-                    e.preventDefault();
-                    $.ajax({
-                        url: 'exportReactions',
-                        data: {req: 'req'},
-                        method: 'POST',
-                        error: function(response) {
-                            alert("error exporting reactions");
-                        }
-                    }).then( function(response) {
-                        $('#download').show();
-                        $('#download').click( function(e) {
-                            $(this).hide();
-                        });
-                    });
-                });
-
-            });
-=======
 $(document).ready(function() {
 
     $('#depiction > div').each( function() {
@@ -167,22 +12,23 @@ $(document).ready(function() {
 
     $('#nameToDepiction').on('submit', function(e) {
         e.preventDefault();
-
         var data = {
             reactant: {
             name: $('#reactant').val(),
-            depiction: $('#depiction #reactant-img img').attr('src')
+            depiction: $('#depiction #reactant-img img').attr('src'),
+            active: true
        },
             reagent: {
                 name: $('#reagent').val(),
-                depiction: $('#depiction #reagent-img img').attr('src')
+                depiction: $('#depiction #reagent-img img').attr('src'),
+                active: true
                 },
             product: {
                 name: $('#product').val(),
-                depiction: $('#depiction #product-img img').attr('src')
+                depiction: $('#depiction #product-img img').attr('src'),
+                active: true
             }
         }
-
         $.ajax({
             url:'/getImage',
             data: data,
@@ -220,29 +66,31 @@ $(document).ready(function() {
         e.preventDefault();
 
         var auth_prompt = window.prompt("Enter password");
-
         var encrypted = CryptoJS.AES.encrypt(auth_prompt, "pw");
         var decrypted = CryptoJS.AES.decrypt(encrypted, "pw");
+        //todo: actually come up with password
 
         //only allow upload to database if correct pw is entered
-        if (decrypted.toString() == "61646d696e") {
+        if (decrypted.toString() == "70617373776f7264") {
             console.log("password correct");
 
             var cards = {
                 reactant: {
                     front: $('#reactant-img img').attr('src'),
-                    back: $('#reactant').val().toLowerCase()
+                    back: $('#reactant').val().toLowerCase(),
+                    active: true
                 },
                 reagent: {
                     front: $('#reagent-img img').attr('src'),
-                    back: $('#reagent').val().toLowerCase()
+                    back: $('#reagent').val().toLowerCase(),
+                    active: true
                 },
                 product: {
                     front: $('#product-img img').attr('src'),
-                    back: $('#product').val().toLowerCase()
+                    back: $('#product').val().toLowerCase(),
+                    active: true
                 }
             }
-
             $.ajax({
                 url: '/addReaction',
                 data: cards,
@@ -346,6 +194,4 @@ $(document).ready(function() {
             });
         }
     });
-
 });
->>>>>>> ed77eade4dbcd9032294ac793423cd05f60f0169
