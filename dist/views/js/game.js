@@ -189,7 +189,6 @@ $(document).ready(function() {
             solutions = response;
             if (typeof(solutions) != "undefined" && typeof(deck) != "undefined") {
               console.log("deck slice: " + deck.slice(0,16));
-              console.log("solutionExists: ", solutionExists(deck.slice(0,16)));
             }
         });
 
@@ -302,8 +301,6 @@ $(document).ready(function() {
                 console.log("duplicate", card['back']);
             }
         });
-
-        console.log("duplicates found at index", indexOfDuplicates);
 
         //move duplicate cards to bottom of deck ------- not 100% functional
         for (var i=0;i<indexOfDuplicates.length;i++) {

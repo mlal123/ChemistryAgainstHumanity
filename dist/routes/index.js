@@ -79,7 +79,8 @@ class IndexRoute extends route_1.BaseRoute {
                 || req.body.onyen == "renfro18"
                 || req.body.onyen == "csv17"
                 || req.body.onyen == "cmoy"
-                || req.body.onyen == "pozefsky") {
+                || req.body.onyen == "pozefsky"
+                || req.body.onyen == "mlal123") {
                 isAdmin = true;
                 options.isAdmin = true;
             }
@@ -116,9 +117,9 @@ class IndexRoute extends route_1.BaseRoute {
           var dbo = db.db("chemistryagainsthumanity");
           dbo.collection("reactions").find({active: true } , { _id: 0, reactant: 1, reagent: 1, product: 1, active: 0 }).toArray(function (err, res2) {
               if (err) { throw err; }
-              console.log("Within mongo (res2): " + JSON.stringify(res2));
+              //console.log("Within mongo (res2): " + JSON.stringify(res2));
               responseArray = res2;
-              console.log("Within mongo (responseArray): " + JSON.stringify(responseArray));
+              //console.log("Within mongo (responseArray): " + JSON.stringify(responseArray));
               res.render("admin", {responseArray: responseArray});
               })
             })
@@ -127,6 +128,7 @@ class IndexRoute extends route_1.BaseRoute {
         var json_obj = {};
         Object.keys(req.body).map(function (key) {
             var chem = req.body[key]['back'];
+            //console.log(chem);
             var img_src;
             if (typeof req.body[key]['front'] == 'undefined') {
                 var encoded = encodeURIComponent(chem);
