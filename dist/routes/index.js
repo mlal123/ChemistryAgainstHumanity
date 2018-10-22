@@ -194,6 +194,7 @@ class IndexRoute extends route_1.BaseRoute {
             });
         });
     }
+
     generateSolutions(req, res, next) { // Need to filter for active solutions
         mongo.MongoClient.connect(url, function (err, db) {
             if (err)
@@ -207,6 +208,7 @@ class IndexRoute extends route_1.BaseRoute {
             });
         });
     }
+    
     exportReactions(req, res, next) {
         mongo.MongoClient.connect(url, function (err, db) {
             if (err)

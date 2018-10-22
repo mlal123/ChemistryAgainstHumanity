@@ -209,7 +209,6 @@ $(document).ready(function() {
 
             deck = JSON.parse(response);
 
-
             shuffle(deck);
 
             if (typeof(solutions) != "undefined") {

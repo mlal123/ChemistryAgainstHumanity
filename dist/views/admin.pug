@@ -67,21 +67,22 @@ html
         div(class="data")
           table
             thead
+               th Active
                th Reactants
                th Reagents
                th Products    
             tbody
             each reaction in responseArray
               tr 
+                td #{reaction.active}
                 td #{reaction.reactant}
                 td #{reaction.reagent}
                 td #{reaction.product}                 
-        br
-        button(id='exportPoints') Export Points
-          a(href='points.csv' button id='downloadPoints' style='display: none;') Download Points
-        button(id='resetPoints') Reset
-
-        form(action='/')
-            input(type='submit' value='Home Page')
-        form(action='/game' method='POST')
-            input(type='submit' value='Game Page')
+        div(class='container')
+          button(id='exportPoints') Export Points
+            a(href='points.csv' button id='downloadPoints' style='display: none;') Download Points
+          button(id='resetPoints') Reset
+          a(href='/')
+            button() Home
+          a(href='/game')
+            button() Game Page

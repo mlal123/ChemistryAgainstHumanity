@@ -278,6 +278,14 @@ $(document).ready(function() {
         $(this).hide();
     });
 
+    $('button.activeBtn').click(function e) {
+      e.preventDefault();
+      console.log('called');
+      if (this.value == true ) {
+        this.value = false;
+      } else { this.value = true };
+    }
+
     $('button.x').click( function(e) {
         e.preventDefault();
         var parent = $(this).parent().attr('id');
@@ -320,7 +328,7 @@ $(document).ready(function() {
             });
         });
     })
-    
+
     $('button#resetPoints').click(function(e) {
         if (confirm("Are you sure you wish to reset all points? You will not be able to export them later.")) {
             e.preventDefault();

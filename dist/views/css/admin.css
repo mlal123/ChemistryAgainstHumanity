@@ -11,7 +11,8 @@ div > div.image {
 
 table th, td {
   padding: 10px;
-  
+  text-align: center;
+
 }
 
 table {
@@ -130,4 +131,11 @@ input[type=submit]:hover{
 }
 ul {
   list-style-type: none;
+}
+.container {
+  width: 100%;
+  text-align: center;
+}
+.container a, button {
+  padding: 5px;
 }
