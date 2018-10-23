@@ -56,6 +56,9 @@ class IndexRoute extends route_1.BaseRoute {
         router.post("/updateLeaderboard", (req, res, next) => {
             new IndexRoute().updateLeaderboard(req, res, next);
         });
+        router.post("/toggleReaction", (req, res, next) => {
+            new IndexRoute().toggleReaction(req, res, next);
+        });
     }
     constructor() {
         super();
@@ -115,7 +118,7 @@ class IndexRoute extends route_1.BaseRoute {
           if (err)
               throw err;
           var dbo = db.db("chemistryagainsthumanity");
-          dbo.collection("reactions").find({active: true } , { _id: 0, reactant: 1, reagent: 1, product: 1, active: 0 }).toArray(function (err, res2) {
+          dbo.collection("reactions").find({ } , { _id: 0, reactant: 1, reagent: 1, product: 1, active: 0 }).toArray(function (err, res2) {
               if (err) { throw err; }
               //console.log("Within mongo (res2): " + JSON.stringify(res2));
               responseArray = res2;
@@ -150,6 +153,27 @@ class IndexRoute extends route_1.BaseRoute {
     game(req, res, next) {
         let options = {};
         this.render(req, res, "game", options);
+    }
+
+    toggleReaction(req,res,next) {
+      mongo.MongoClient.connect(url, function(err,db) {
+        if (err) {throw err}
+        var dbo = db.db("chemistryagainsthumanity");
+        var reactantPassed = req.body.reactant.front;
+        var reagentPassed = req.body.reagent.front;
+        var productPassed = req.body.product.front;
+        var currentlyActive = req.body.active.active;
+        var switchTo;
+        if (currentlyActive == "true") {
+          switchTo = false;
+        } else { console.log("no here" ); switchTo = true;}
+            dbo.collection('reactions').update({reactant: reactantPassed, reagent: reagentPassed, product: productPassed },{ "$set": { "active": switchTo } }, function (err, res2) {
+            if (err)
+                throw err;
+            var response = JSON.stringify(res2);
+            res.send(response);
+          });
+      });
     }
     addReaction(req, res, next) {
         console.log(req.body);
@@ -227,7 +251,7 @@ class IndexRoute extends route_1.BaseRoute {
             });
         });
     }
-    
+
     exportReactions(req, res, next) {
         mongo.MongoClient.connect(url, function (err, db) {
             if (err)

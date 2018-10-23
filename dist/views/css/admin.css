@@ -15,6 +15,18 @@ table th, td {
 
 }
 
+.active {
+  display: none;
+}
+
+.activeButton {
+  background-color: darkgray;
+  color: white;
+}
+.activeButton:hover {
+  color: lightblue;
+}
+
 table {
   width: 100%;
 }

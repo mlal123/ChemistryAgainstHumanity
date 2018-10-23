@@ -126,13 +126,51 @@ $(document).ready(function() {
         $(this).hide();
     });
 
-    $('button.activeBtn').click(function e) {
+
+    $('button.activeButton').click(function (e) {
       e.preventDefault();
-      console.log('called');
-      if (this.value == true ) {
-        this.value = false;
-      } else { this.value = true };
-    }
+      var table = document.getElementById("reactions");
+      var value = parseInt(this.value, 10);
+      var reaction = table.getElementsByClassName(value);
+
+      var reactant = reaction.item(0);
+      var reagent = reaction.item(1);
+      var product = reaction.item(2);
+      var isActive;
+      if (this.innerText.toLowerCase() == "true") {
+        isActive=true;
+      } else { isActive=false;}
+      var cards = {
+          reactant: {
+              front: reactant.id,
+          },
+          reagent: {
+              front: reagent.id,
+          },
+          product: {
+              front: product.id,
+          },
+          active: {
+              active: isActive
+          }
+        }
+
+
+      $.ajax({
+        url: '/toggleReaction',
+        data: cards,
+        method: 'POST',
+        error: function(response) {
+          alert("error toggling")
+        }
+      });
+
+      if (this.innerText.toLowerCase() == "true" ) {
+        this.innerText = "FALSE"
+      } else { this.innerText = "TRUE"}
+
+    });
+
 
     $('button.x').click( function(e) {
         e.preventDefault();
@@ -176,6 +214,8 @@ $(document).ready(function() {
             });
         });
     })
+
+
 
     $('button#resetPoints').click(function(e) {
         if (confirm("Are you sure you wish to reset all points? You will not be able to export them later.")) {

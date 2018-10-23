@@ -65,19 +65,21 @@ html
                 li i.e. Don't type "Sodium Chloride" (with space) for one reaction, then "SodiumChloride" (no space) for another</li>
                 li You may go to the "game" page to view your uploaded reactions and test out the game</li>
         div(class="data")
-          table
+          table(id = "reactions")
             thead
                th Active
                th Reactants
                th Reagents
                th Products    
             tbody
+            -var x = 1;
             each reaction in responseArray
               tr 
-                td #{reaction.active}
-                td #{reaction.reactant}
-                td #{reaction.reagent}
-                td #{reaction.product}                 
+                <td  class="entry" > <button value=#{x} class='activeButton'> #{reaction.active} </button> </td>
+                td(class='reactant' class=x id=reaction.reactant) #{reaction.reactant}
+                td(class='reagent' class=x id=reaction.reagent) #{reaction.reagent}
+                td(class='product' class=x id=reaction.product) #{reaction.product} 
+                -x += 1;                
         div(class='container')
           button(id='exportPoints') Export Points
             a(href='points.csv' button id='downloadPoints' style='display: none;') Download Points
