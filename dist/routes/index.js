@@ -5,6 +5,7 @@ const https = require("https");
 const mongo = require("mongodb");
 const fs = require('fs');
 const card = require('./card.js');
+const request = require('request');
 const reaction = require('./reaction.js');
 var url = "mongodb+srv://admin:Password123@chemistryagainsthumanity-5zhct.mongodb.net";
 
@@ -132,7 +133,7 @@ class IndexRoute extends route_1.BaseRoute {
             var img_src;
             if (typeof req.body[key]['depiction'] == 'undefined') {
                 var encoded = encodeURIComponent(chem);
-                img_src = "/SteveenBranch/" + encoded + ".png";
+                img_src = "http://opsin.ch.cam.ac.uk/opsin/" + encoded + ".png";
             }
             else {
                 img_src = req.body[key]['depiction'];
@@ -176,11 +177,22 @@ class IndexRoute extends route_1.BaseRoute {
                 var encoded = encodeURIComponent(back);
                 var img_src = "/SteveenBranch/" + encoded + ".png";
                 var img_src_to_file = "dist/public/SteveenBranch/" + encoded + ".png";
-                var base64Data = image.replace(/^data:image\/png;base64,/, "");
-                fs.writeFile(img_src_to_file, base64Data, 'base64', function(err){
-                    if (err)
-                        console.log(err);
-                });
+                if (image.startsWith("http://opsin")){
+                    request.get({url: image, encoding: 'binary'}, function(err, response, body){
+                        fs.writeFile(img_src_to_file, body, 'binary', function(err){
+                            if (err)
+                                console.log(err);
+                            else
+                                console.log("File was saved");
+                        })
+                    });
+                }else{
+                    var base64Data = image.replace(/^data:image\/png;base64,/, "");
+                    fs.writeFile(img_src_to_file, base64Data, 'base64', function(err){
+                        if (err)
+                            console.log(err);
+                    });
+                }
                 var card_obj = {
                     front: img_src,
                     back: req.body[key]['back'],
