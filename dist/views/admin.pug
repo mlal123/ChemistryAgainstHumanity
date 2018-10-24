@@ -19,7 +19,7 @@ html
                 button( class='x') x
             div( class='image dropzone' id='product-img')
                 button(class='x') x
-        form(action='' id='nameToDepiction' method="POST")
+        form(action='' id='nameToDepiction' method="POST" enctype="multipart/form-data")
             input(type='text' name='name' id='reactant' placeholder='reactant')
             input(type='text' name='name' id='reagent' placeholder='reagent')
             input(type='text' name='name' id='product' placeholder='product')

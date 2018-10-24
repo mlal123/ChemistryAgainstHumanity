@@ -72,7 +72,6 @@ $(document).ready(function() {
 
         //only allow upload to database if correct pw is entered
         if (decrypted.toString() == "70617373776f7264") {
-            console.log("password correct");
 
             var cards = {
                 reactant: {
@@ -101,6 +100,7 @@ $(document).ready(function() {
             }).then( function(response) {
                 $('#confirm').hide();
             });
+
 
             alert("Reaction uploaded");
             $('#depiction img').remove();

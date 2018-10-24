@@ -203,9 +203,6 @@ $(document).ready(function() {
         }).then( function(response) {
             //response is json object of all cards from db
             deck = response;
-            for (var i = 0; i < deck.length; i++){
-                console.log(deck[i]);
-            }
             //deck = JSON.parse(response);
             shuffle(deck);
             if (typeof(solutions) != "undefined") {
