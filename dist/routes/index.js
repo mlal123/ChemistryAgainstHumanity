@@ -234,6 +234,7 @@ class IndexRoute extends route_1.BaseRoute {
         var response = { status: "done" };
         res.send(response);
     }
+
     generateCards(req, res, next) {
         mongo.MongoClient.connect(url, function (err, db) {
             if (err)
@@ -265,7 +266,7 @@ class IndexRoute extends route_1.BaseRoute {
                 var response = [];
                 for (var i = 0; i < res2.length; i++){
                     var r = res2[i];
-                    var react = new reaction.Reaction(r.reactant, r.reagent, r.product, r.active);
+                    var react = new reaction.Reaction(r.reactant, r.reagent, r.product, r.active, false);
                     response.push(react);
                 }
                 res.send(response);
