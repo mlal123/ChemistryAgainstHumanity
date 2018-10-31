@@ -51,6 +51,7 @@
     "zip-folder": "^1.0.0"
   },
   "dependencies": {
+    "amdefine": "^1.0.1",
     "body-parser": "^1.18.3",
     "connect-busboy": "0.0.2",
     "cookie-parser": "^1.4.3",

@@ -184,6 +184,9 @@ $(document).ready(function() {
         $('#submit').show();
         $('#labels').show();
         $('#start_game').hide();
+        $('.asideLeft').show();
+        $('.asideRight').show();
+
 
         $.ajax({
             url: "/generateSolutions",
@@ -442,6 +445,7 @@ $(document).ready(function() {
             //append new cards to grid
             setTimeout(function(){updateGameboardUI(newCards)}, 1500);
         } else {
+            returnToOriginalPosition();
             score = score - 0.5;
             $('#score').append("<p>Score: "+score+"</p>");
             $('#result').append("<p>Incorrect</p>");
