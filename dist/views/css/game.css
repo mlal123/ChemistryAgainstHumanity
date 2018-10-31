@@ -152,7 +152,7 @@ ul li img {
 }
 
 .card{
-    height: 100px;
+    height: 75px;
     align-content: center;
     border-radius: 15px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,.3);
@@ -171,7 +171,6 @@ p{
 .card img {
     width:75%;
     height:75%;
-    margin-top: 10%;
     background-color: solid white;
     top: 50%;
     /* transform: translateY(-50%); */
@@ -179,6 +178,34 @@ p{
 }
 
 /*Popup Begin */
+.asideLeft {
+  float: left;
+  height: 400px;
+  width: 15%;
+  border: 1px dashed #24C6DC;
+  margin-left: 6%;
+  text-align: center;
+  border-radius: 20px
+}
+
+.asideRight {
+  float: right;
+  height: 400px;
+  width: 15%;
+  border: 1px dashed black;
+  margin-right: 6%;
+  text-align: center;
+  border-radius: 20px;
+}
+
+.asideLeft button{
+  margin-top: 150%;
+}
+
+#score{
+  font-size: 150%;
+  color: #24C6DC;
+}
 
 #buttons, #start_game {
     width: 60%;
@@ -193,7 +220,7 @@ p{
     margin-left: 38%;
 }
 
-.inst_button, .lead_button, .toggle, #check, #clear_answers, #start_game, #admin_button{
+ button{
     -webkit-transform:scale(1);
     -ms-transform:scale(1);
     transform:scale(1);
@@ -210,11 +237,11 @@ p{
     margin-top: 5px;
 }
 
-.inst_button:focus, #check:focus, #clear_answers:focus .lead_button:focus, .toggle:focus, #start_game:focus, #admin_button:focus{
+button:focus{
     outline:none;
 }
 
-.inst_button:hover, #check:hover, #clear_answers:hover, .lead_button:hover, .toggle:hover, #start_game:hover, #admin_button:hover{
+button:hover{
     -webkit-transform:scale(1.2);
     transform:scale(1.2);
     background:#24C6DC;
