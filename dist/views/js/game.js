@@ -62,7 +62,16 @@ $(document).ready(function() {
     var score = 0.0; //current points
     var gameOver = false;
     var practiceMode;
-
+    var difficulty = {"easy": 5, "medium": 3, "hard": 1};
+    var currentDifficulty = difficulty["hard"];
+    var totalSolutions = currentDifficulty;
+    var cardsMap = {};
+    var nextCardUp = [];
+    var solutionsIndex = 0;
+    var solutionslength;
+    var productQ = [];
+    var reactantQ = [];
+    var reagentQ = [];
 
     //if user is logged in --> in-class mode
     if ($('#username').html().length > 0) {
@@ -138,7 +147,7 @@ $(document).ready(function() {
             deck[shuffle_pos] = tmp;
         }
     }
-
+    /*
     var drawCards = function(numToDraw) {
         //if no cards left
         if (nextToDraw == deck.length) {
@@ -154,7 +163,7 @@ $(document).ready(function() {
             nextToDraw++;
         }
         return drawnCards;
-    }
+    }*/
 
     var makeCard = function(card) {
         return $("<div class='card'>" +
@@ -187,8 +196,12 @@ $(document).ready(function() {
         }).then( function(response) {
             //solutions = JSON.parse(response);
             solutions = response;
-            if (typeof(solutions) != "undefined" && typeof(deck) != "undefined") {
-              console.log("deck slice: " + deck.slice(0,16));
+            if (typeof(solutions) == "undefined" ) {
+                console.log("generateSolutions returned undefined");
+            }else{
+                console.log("not undefined");
+                //solutionslength = solutions.length;
+                shuffle(solutions);
             }
         });
 
@@ -204,12 +217,12 @@ $(document).ready(function() {
             //response is json object of all cards from db
             deck = response;
             for (var i = 0; i < deck.length; i++){
-                console.log(deck[i]);
+                cardsMap[deck[i].back] = deck[i];
             }
             //deck = JSON.parse(response);
             shuffle(deck);
             if (typeof(solutions) != "undefined") {
-              var i = 0;
+                var i = 0;
                 while (!solutionExists(deck.slice(0,16))) {
                     shuffle(deck);
                     if ( i > 100 ) {
@@ -225,18 +238,116 @@ $(document).ready(function() {
                 }
 
             }
+
         });
 
     }
 
+    var drawCards = function(){
+        var drawnCards = [];
+        temp(3, drawnCards);
+        return drawnCards;
+    }
+
+    var temp = function(numToDraw, drawnCards){
+        var counter = 0;
+        var prod_len = productQ.length;
+        var reac_len = reactantQ.length;
+        var reag_len = reagentQ.length;
+        if (prod_len + reac_len + reag_len < numToDraw){
+            numToDraw = prod_len + reac_len+reag_len;
+        }
+        if (prod_len == reac_len && prod_len == reag_len && prod_len == 0){
+            return drawnCards;
+        }
+        while (counter < numToDraw){
+            prod_len = productQ.length;
+            reac_len = reactantQ.length;
+            reag_len = reagentQ.length;
+            if (prod_len >= reac_len && prod_len >= reag_len){
+                drawnCards.push(productQ.shift());
+                counter++;
+            }else if (reac_len > prod_len && reac_len >= reag_len){
+                //if reactionQ is largest or equal to reagent Q, take from reactQ
+                drawnCards.push(reactantQ.shift());
+                counter++;
+            }else if (reag_len > reac_len && reag_len > prod_len){
+                //if reagentQ is largest then take from reagentQ
+                drawnCards.push(reagentQ.shift());
+                counter++;
+            }
+        }
+
+        return drawnCards;
+    }
+
+    var initializeStartingArray = function(){
+        var totalCards = totalSolutions*3;
+        var iterations;
+        solutionsIndex = totalSolutions;
+        if (solutions.length*3 < 16){
+            iterations = solutionsArr.length*3;
+        }else{
+            iterations = 16;
+        }
+        var array = [];
+        for (var i = 0; i < solutions.length; i++){
+            if (i < totalSolutions){
+                array.push(cardsMap[solutions[i].product]);
+                array.push(cardsMap[solutions[i].reagent]);
+                array.push(cardsMap[solutions[i].reactant]);
+            }else{
+                productQ.push(cardsMap[solutions[i].product]);
+                reactantQ.push(cardsMap[solutions[i].reactant]);
+                reagentQ.push(cardsMap[solutions[i].reagent]);
+            }
+        }
+
+        while (totalCards < iterations){
+            if (productQ.length > 0){
+                array.push(productQ.shift());
+            }else if (reactantQ.length > 0){
+                array.push(reactantQ.shift());
+            }else{
+                array.push(reagentQ.shift());
+            }
+            //push next solution into queue
+            //nextCardUp.push(solutions[solutionsIndex]);
+            solutionsIndex++;
+            totalCards++;
+        }
+
+        return array;
+    }
+
+    var initializeGameboardUI = function(){
+        var array = initializeStartingArray();
+
+        shuffle(array);
+        var row_num = 1;
+        var col_num = 1;
+        for (var i = 0; i < array.length; i++){
+            var table_pos = 'r' + row_num + 'c' + col_num;
+            $('#div1 th#' + table_pos).append(makeCard(array[i]));
+            col_num++;
+            if (col_num == 5) {
+                col_num = 1;
+                row_num++;
+            }
+        }
+        getOriginalPosition();
+        $('.card').flip();
+        dragAndDrop();
+    }
+    /*
     //update UI with cards
     var initializeGameboardUI = function() {
-      var iterations;
-      if (deck.length < 16) {
-        iterations = deck.length;
-      } else {
-        iterations = 16;
-      }
+        var iterations;
+        if (deck.length < 16) {
+            iterations = deck.length;
+        }else {
+            iterations = 16;
+        }
         var row_num = 1;
         var col_num = 1;
         for (var i = 0;i < iterations;i++) {
@@ -252,7 +363,7 @@ $(document).ready(function() {
         getOriginalPosition();
         $('.card').flip();
         dragAndDrop();
-    }
+    }*/
 
     var updateGameboardUI = function(newCards) {
         var j = 0;
@@ -279,7 +390,6 @@ $(document).ready(function() {
             cards.push(card_objs[i]['back']);
           //  console.("card of i: " cards[i]);
         }
-
 
         for (var i=0;i<solutions.length;i++) {
             if (cards.includes(solutions[i]['reactant']) &&
@@ -338,14 +448,24 @@ $(document).ready(function() {
             //$('#clear_answers').show();
         }
     }
+    var allSolutionsSolved = function(){
+        for(var i = 0; i < solutions.length; i++){
+            //if any problem is not solved return false, game is not over
+            if (!solutions[i].solved){
+                return false;
+            }
+        }
 
+        return true;
+    }
     var checkAnswer = function(answer) {
         for (var i=0;i<solutions.length;i++) {
             if (answer['reactant'] == solutions[i]['reactant'] &&
             answer['reagent'] == solutions[i]['reagent'] &&
             answer['product'] == solutions[i]['product']) {
                 solutions.splice(i, 1); //remove reaction from list of solutions
-                if (solutions.length == 0) {
+                if (solutions.length <= 0) {
+                    console.log("game over");
                     gameOver = true;
                 }
                 return true;
