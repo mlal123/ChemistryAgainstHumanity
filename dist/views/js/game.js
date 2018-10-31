@@ -54,7 +54,7 @@ $(function(){
 
 //End draft
 
-$(document).ready(function() {
+$(document).ready(function(){
 
     var deck;
     var solutions;
@@ -65,13 +65,10 @@ $(document).ready(function() {
     var difficulty = {"easy": 5, "medium": 3, "hard": 1};
     var currentDifficulty = difficulty["hard"];
     var totalSolutions = currentDifficulty;
+    var solutionsLength;
+    var cardIndex = 0;
+    var solutionIndex = 0;
     var cardsMap = {};
-    var nextCardUp = [];
-    var solutionsIndex = 0;
-    var solutionslength;
-    var productQ = [];
-    var reactantQ = [];
-    var reagentQ = [];
 
     //if user is logged in --> in-class mode
     if ($('#username').html().length > 0) {
@@ -120,7 +117,7 @@ $(document).ready(function() {
                 ui.draggable.css("top", 0).css("left", 0);
             }
         });
-    }
+    }// draganddrop
 
     var getOriginalPosition = function() {
         $('#div1 .card').each( function() {
@@ -128,7 +125,7 @@ $(document).ready(function() {
             var op = $(this).parent().closest('th').attr('id');
             $(this).attr('data-op', op);
         });
-    }
+    }//originalpos
 
     var returnToOriginalPosition = function() {
         //returns cards to previous positions (row#column#)
@@ -137,7 +134,7 @@ $(document).ready(function() {
         });
         //initialize buttons
         $('#result').empty();
-    }
+    }//returntoog
 
     var shuffle = function(deck) {
         for (var i=0; i<deck.length; i++) {
@@ -146,24 +143,7 @@ $(document).ready(function() {
             deck[i] = deck[shuffle_pos];
             deck[shuffle_pos] = tmp;
         }
-    }
-    /*
-    var drawCards = function(numToDraw) {
-        //if no cards left
-        if (nextToDraw == deck.length) {
-            return;
-        }
-        //if less than 3 cards left in deck
-        if (nextToDraw + numToDraw > deck.length) {
-            numToDraw = deck.length - nextToDraw;
-        }
-        var drawnCards = [];
-        for (var i=0; i<numToDraw; i++) {
-            drawnCards.push(deck[nextToDraw]);
-            nextToDraw++;
-        }
-        return drawnCards;
-    }*/
+    }//shuffle
 
     var makeCard = function(card) {
         return $("<div class='card'>" +
@@ -175,7 +155,7 @@ $(document).ready(function() {
                         "<p>" + card['back'] + "</p>" +
                     "</div>" +
                 "</div>");
-    }
+    }//makecard
 
     var initializeGame = function() {
 
@@ -184,7 +164,6 @@ $(document).ready(function() {
         $('#submit').show();
         $('#labels').show();
         $('#start_game').hide();
-
         $.ajax({
             url: "/generateSolutions",
             data: {request: "req"},
@@ -200,7 +179,7 @@ $(document).ready(function() {
                 console.log("generateSolutions returned undefined");
             }else{
                 console.log("not undefined");
-                //solutionslength = solutions.length;
+                solutionsLength = solutions.length;
                 shuffle(solutions);
             }
         });
@@ -239,52 +218,211 @@ $(document).ready(function() {
 
             }
 
-        });
+        });//ajax
 
-    }
+    }//initialgame
 
-    var drawCards = function(){
+    var drawCards = function(numToDraw){
+        //draw three cards
         var drawnCards = [];
-        temp(3, drawnCards);
+        drawingCards(numToDraw, drawnCards);
         return drawnCards;
-    }
+    }//drawcards
 
-    var temp = function(numToDraw, drawnCards){
-        var counter = 0;
-        var prod_len = productQ.length;
-        var reac_len = reactantQ.length;
-        var reag_len = reagentQ.length;
-        if (prod_len + reac_len + reag_len < numToDraw){
-            numToDraw = prod_len + reac_len+reag_len;
-        }
-        if (prod_len == reac_len && prod_len == reag_len && prod_len == 0){
+    var drawingCards = function(numToDraw, drawnCards){
+        var cardsDrawn = 0;
+        var solution_count = totalSolutions;
+        //use tmp index as runner to check indexes of deck for desired card
+        var tmpIndex = cardIndex;
+
+        //if out of bounds
+        if (cardIndex > deck.length ) return drawnCards;
+
+        if(deck.length - cardIndex < numToDraw){
+            for(var i = cardIndex; i < deck.length; i++){
+                drawnCards.push(deck[i]);
+                cardsDrawn++;
+                cardIndex++;
+            }
             return drawnCards;
         }
-        while (counter < numToDraw){
-            prod_len = productQ.length;
-            reac_len = reactantQ.length;
-            reag_len = reagentQ.length;
-            if (prod_len >= reac_len && prod_len >= reag_len){
-                drawnCards.push(productQ.shift());
-                counter++;
-            }else if (reac_len > prod_len && reac_len >= reag_len){
-                //if reactionQ is largest or equal to reagent Q, take from reactQ
-                drawnCards.push(reactantQ.shift());
-                counter++;
-            }else if (reag_len > reac_len && reag_len > prod_len){
-                //if reagentQ is largest then take from reagentQ
-                drawnCards.push(reagentQ.shift());
-                counter++;
+
+        while( cardsDrawn < numToDraw){
+            //if solution count is met just break;
+            console.log("CARDS DRAWN " + cardsDrawn);
+            if (solution_count < currentDifficulty){
+                var solution = getNextSolution();
+                var solutionPartsInBoard = getSolutionPartsInBoard(solution);
+                var solutionParts = getAllComponentsOfSolution(solution);
+                for (var j = 0; j < solutionParts.length; j++){
+                    var card_obj = solutionParts[j];
+                    if (!solutionPartsInBoard.includes(card_obj)){
+                        // if required card is not already in board then push it 
+                        drawnCards.push(card_obj);
+                        swapDeckPosition(card_obj);
+                        cardsDrawn++;
+                        // need to reset temp index to current card index, it might overflow
+                        tmpIndex = cardIndex;
+                    }
+                }
+                solution_count++;
+                totalSolutions++;
+            }else{
+                // temp ignore solution count if index >= deck.length
+                if (tmpIndex >= deck.length){
+                    // if out of bounds just put in next available card
+                    drawnCards.push(deck[cardIndex]);
+                    cardIndex++;
+                    cardsDrawn++;
+                    continue;
+                }
+                var card = deck[tmpIndex];
+                if(!cardLeadsToSolutions(card)){
+                    //use tmpIndex as a runner, but only increment card index when we actually swap it with a viable card
+                    if (tmpIndex != cardIndex){
+                        swapDeckPosition(card);
+                    }else{
+                        cardIndex++;
+                    }
+                    drawnCards.push(card);
+                    cardsDrawn++;
+                }
+                tmpIndex++;
             }
-        }
+
+        }//while
 
         return drawnCards;
+    }//temp
+
+    var getNextSolution = function(){
+        //get next solution in solution array
+        if(solutionIndex >= solutions.length) return;
+        var solution = solutions[solutionIndex];
+        solutionIndex++;
+        return solution;
+    }//nextsolution
+
+    var getNextCard = function(){
+        if (cardIndex >= deck.length) return;
+        var card = deck[cardIndex];
+        cardIndex++;
+        return card;
+    }
+
+    var grabSolutions = function(card){
+        //grab the solutions that this card is a part of
+        var desiredSolutions = [];
+        for (var i = 0; i < solutions.length; i++){
+            var solution = solutions[i];
+            if (card.back == solution.product || card.back == solution.reactant || card.back == solution.reagent){
+                desiredSolutions.push(solution);
+            }
+        }
+        //returns array of all potential solutions that this card belongs to
+        return desiredSolutions;
+    }
+
+    var getSolutionPartsInArray = function(solution, array){
+        // get solution parts from initialize array
+        var components = [];
+        for (var i = 0; i < array.length; i++){
+            var card_name = array[i].back;
+            if (card_name == solution.product || card_name == solution.reagent || card_name == solution.reactant){
+                components.push(cardsMap[card_name]);
+            }
+        }
+        return components;
+    }
+
+    var cardLeadsToSolutions = function(card, init, array){
+        console.log("card leads to solution");
+        //takes in a card object
+        //grab all solutions that this card belongs to
+        var potentialSolutions = grabSolutions(card);
+        var alreadyExistingParts = [];
+        for (var i = 0; i < potentialSolutions.length; i++){
+            //if the insertion of this card will lead to viable solution to any of the potential solutions, return true;
+            if (init != undefined){
+                //if this is called from initializing array/game
+                alreadyExistingParts = getSolutionPartsInArray(potentialSolutions[i], array);
+            }else{
+                alreadyExistingParts = getSolutionPartsInBoard(potentialSolutions[i]);
+            }
+            if (alreadyExistingParts.length > 1){
+                //if there are 2 components already in the board then adding this card will lead to solution
+                return true;
+            }
+        }
+        return false;
+    }
+
+    var getAllComponentsOfSolution = function(solution){
+        // get all 3 cards that make up this particular solution
+        var reactionComponents = [];
+        reactionComponents.push(cardsMap[solution.product]);
+        reactionComponents.push(cardsMap[solution.reactant]);
+        reactionComponents.push(cardsMap[solution.reagent]);
+        //all card objects
+        return reactionComponents;
+    }
+
+    var getMissingComponentsOfSolution = function(reactionComponents, given_card){
+        var index = reactionComponents.indexOf(given_card);
+        //remove the one card that's given, so we're left with the remaining 2
+        reactionComponents.splice(index, 1); 
+        return reactionComponents;
+    }
+
+    var getSolutionPartsInBoard = function(solution){
+        console.log("not init!!");
+        console.log("solution for this card ");
+        console.log(solution);
+        //return all the parts of the solution that is already on the game board
+        var components = [];
+        var cardsInPlay = document.getElementsByClassName("card");
+        for (var i = 0; i < cardsInPlay.length; i++){
+            var card_name = cardsInPlay[i].lastChild.textContent;
+            if (card_name == solution.product || card_name == solution.reagent || card_name == solution.reactant){
+                components.push(cardsMap[card_name]);
+            }
+        }
+        console.log("components ");
+        console.log(components);
+        return components;
+    }
+
+    var boardContainsCard = function(card){
+        console.log("board contains card..");
+         var cardsInPlay = document.getElementsByClassName("card");
+          for (var i = 0; i < cardsInPlay.length; i++){
+            var card_name = cardsInPlay[i].childNodes[1].textContent;
+            if (card_name == card.back){
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    var swapDeckPosition = function(card){
+        //console.log("swapping deck position");
+        //takes in card object
+        console.log("current Index in swap method" + cardIndex);
+        if (cardIndex >= deck.length) {
+            console.log("end of deck");
+            return;
+        }
+        var index = deck.indexOf(card);
+        var tmp = deck[index];
+        deck[index] = deck[cardIndex];
+        deck[cardIndex] = tmp;
+        cardIndex++;
     }
 
     var initializeStartingArray = function(){
         var totalCards = totalSolutions*3;
         var iterations;
-        solutionsIndex = totalSolutions;
+        solutionIndex = totalSolutions;
         if (solutions.length*3 < 16){
             iterations = solutionsArr.length*3;
         }else{
@@ -292,38 +430,45 @@ $(document).ready(function() {
         }
         var array = [];
         for (var i = 0; i < solutions.length; i++){
-            if (i < totalSolutions){
-                array.push(cardsMap[solutions[i].product]);
-                array.push(cardsMap[solutions[i].reagent]);
-                array.push(cardsMap[solutions[i].reactant]);
-            }else{
-                productQ.push(cardsMap[solutions[i].product]);
-                reactantQ.push(cardsMap[solutions[i].reactant]);
-                reagentQ.push(cardsMap[solutions[i].reagent]);
-            }
+            if (i < totalSolutions && i < iterations){
+                var prod = cardsMap[solutions[i].product];
+                var reag = cardsMap[solutions[i].reagent];
+                var reac = cardsMap[solutions[i].reactant];
+                array.push(prod);
+                array.push(reag);
+                array.push(reac);
+                swapDeckPosition(prod);
+                swapDeckPosition(reag);
+                swapDeckPosition(reac);
+            }    
         }
-
-        while (totalCards < iterations){
-            if (productQ.length > 0){
-                array.push(productQ.shift());
-            }else if (reactantQ.length > 0){
-                array.push(reactantQ.shift());
-            }else{
-                array.push(reagentQ.shift());
-            }
+        var tmpIndex = cardIndex;
+        //console.log(cardIndex);
+        //new cards can be put in but I only want to permanently change card Index when solutions are submitted and swapped.
+        while (array.length < iterations){
             //push next solution into queue
-            //nextCardUp.push(solutions[solutionsIndex]);
-            solutionsIndex++;
-            totalCards++;
+            console.log("current index " + tmpIndex);
+            var nextCard = deck[tmpIndex];
+            if (!cardLeadsToSolutions(nextCard, "init", array)){
+                if (tmpIndex != cardIndex){
+                    swapDeckPosition(nextCard);
+                }else{
+                    cardIndex++;
+                }
+                array.push(nextCard);
+                totalCards++;
+            }
+            tmpIndex++;
         }
-
+        
         return array;
     }
 
     var initializeGameboardUI = function(){
         var array = initializeStartingArray();
-
         shuffle(array);
+        console.log(deck);
+        console.log("current Index in initialize game" + cardIndex);
         var row_num = 1;
         var col_num = 1;
         for (var i = 0; i < array.length; i++){
@@ -339,31 +484,6 @@ $(document).ready(function() {
         $('.card').flip();
         dragAndDrop();
     }
-    /*
-    //update UI with cards
-    var initializeGameboardUI = function() {
-        var iterations;
-        if (deck.length < 16) {
-            iterations = deck.length;
-        }else {
-            iterations = 16;
-        }
-        var row_num = 1;
-        var col_num = 1;
-        for (var i = 0;i < iterations;i++) {
-            //table_pos = r#c#
-            var table_pos = 'r' + row_num + 'c' + col_num;
-            $('#div1 th#' + table_pos).append(makeCard(deck[i]));
-            col_num++;
-            if (col_num == 5) {
-                col_num = 1;
-                row_num++;
-            }
-        }
-        getOriginalPosition();
-        $('.card').flip();
-        dragAndDrop();
-    }*/
 
     var updateGameboardUI = function(newCards) {
         var j = 0;
@@ -378,8 +498,8 @@ $(document).ready(function() {
             dragAndDrop();
             getOriginalPosition();
         }
+        $('#result').empty();
         $('#div2 .sub_box').empty();
-        $('#result').empty()
     }
 
     //accepts JSON obj of cards {id:..., front:..., back:...}
@@ -390,7 +510,6 @@ $(document).ready(function() {
             cards.push(card_objs[i]['back']);
           //  console.("card of i: " cards[i]);
         }
-
         for (var i=0;i<solutions.length;i++) {
             if (cards.includes(solutions[i]['reactant']) &&
                 cards.includes(solutions[i]['reagent']) &&
@@ -435,12 +554,16 @@ $(document).ready(function() {
         // if correct
         if (checkAnswer(answer)) {
             score++;
+            totalSolutions--;
             $('#score').append("<p>Score: "+score+"</p>")
             $('#result').append("<p>Correct</p>")
+            if (gameOver){
+                console.log("Game Over");
+            }
             //draw new cards to replace
             var newCards = drawCards(3);
             //append new cards to grid
-            setTimeout(function(){updateGameboardUI(newCards)}, 1500);
+            setTimeout(function(){updateGameboardUI(newCards)}, 100);
         } else {
             score = score - 0.5;
             $('#score').append("<p>Score: "+score+"</p>");
@@ -448,24 +571,16 @@ $(document).ready(function() {
             //$('#clear_answers').show();
         }
     }
-    var allSolutionsSolved = function(){
-        for(var i = 0; i < solutions.length; i++){
-            //if any problem is not solved return false, game is not over
-            if (!solutions[i].solved){
-                return false;
-            }
-        }
 
-        return true;
-    }
     var checkAnswer = function(answer) {
-        for (var i=0;i<solutions.length;i++) {
+        for (var i=0;i<solutions.length;i++) { 
             if (answer['reactant'] == solutions[i]['reactant'] &&
             answer['reagent'] == solutions[i]['reagent'] &&
             answer['product'] == solutions[i]['product']) {
-                solutions.splice(i, 1); //remove reaction from list of solutions
-                if (solutions.length <= 0) {
-                    console.log("game over");
+                //solutions.splice(i, 1); //remove reaction from list of solutions
+                solutionsLength--;
+                //console.log("remaining solutions: " + solutionsLength);
+                if (solutionsLength <= 0) {
                     gameOver = true;
                 }
                 return true;
@@ -524,8 +639,8 @@ $(document).ready(function() {
                 }, 300000);
             }
         }, 300000);
-}
 
+}
     $('#start_game').on("click", function(e) {
         e.preventDefault();
         initializeGame();
