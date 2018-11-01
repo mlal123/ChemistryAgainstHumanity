@@ -176,6 +176,7 @@ class IndexRoute extends route_1.BaseRoute {
           });
       });
     }
+    
     addReaction(req, res, next) {
         mongo.MongoClient.connect(url, function (err, db) {
             if (err)

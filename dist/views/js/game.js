@@ -63,7 +63,7 @@ $(document).ready(function(){
     var gameOver = false;
     var practiceMode;
     var difficulty = {"easy": 5, "medium": 3, "hard": 1};
-    var currentDifficulty = difficulty["hard"];
+    var currentDifficulty = difficulty["easy"];
     var totalSolutions = currentDifficulty;
     var solutionsLength;
     var cardIndex = 0;
@@ -251,8 +251,7 @@ $(document).ready(function(){
         }
 
         while( cardsDrawn < numToDraw){
-            //if solution count is met just break;
-            console.log("CARDS DRAWN " + cardsDrawn);
+            //if solution count is met just breakk
             if (solution_count < currentDifficulty){
                 var solution = getNextSolution();
                 var solutionPartsInBoard = getSolutionPartsInBoard(solution);
@@ -339,7 +338,6 @@ $(document).ready(function(){
     }
 
     var cardLeadsToSolutions = function(card, init, array){
-        console.log("card leads to solution");
         //takes in a card object
         //grab all solutions that this card belongs to
         var potentialSolutions = grabSolutions(card);
@@ -378,9 +376,6 @@ $(document).ready(function(){
     }
 
     var getSolutionPartsInBoard = function(solution){
-        console.log("not init!!");
-        console.log("solution for this card ");
-        console.log(solution);
         //return all the parts of the solution that is already on the game board
         var components = [];
         var cardsInPlay = document.getElementsByClassName("card");
@@ -390,13 +385,10 @@ $(document).ready(function(){
                 components.push(cardsMap[card_name]);
             }
         }
-        console.log("components ");
-        console.log(components);
         return components;
     }
 
     var boardContainsCard = function(card){
-        console.log("board contains card..");
          var cardsInPlay = document.getElementsByClassName("card");
           for (var i = 0; i < cardsInPlay.length; i++){
             var card_name = cardsInPlay[i].childNodes[1].textContent;
@@ -410,7 +402,6 @@ $(document).ready(function(){
     var swapDeckPosition = function(card){
         //console.log("swapping deck position");
         //takes in card object
-        console.log("current Index in swap method" + cardIndex);
         if (cardIndex >= deck.length) {
             console.log("end of deck");
             return;
@@ -450,7 +441,6 @@ $(document).ready(function(){
         //new cards can be put in but I only want to permanently change card Index when solutions are submitted and swapped.
         while (array.length < iterations){
             //push next solution into queue
-            console.log("current index " + tmpIndex);
             var nextCard = deck[tmpIndex];
             if (!cardLeadsToSolutions(nextCard, "init", array)){
                 if (tmpIndex != cardIndex){
@@ -470,8 +460,6 @@ $(document).ready(function(){
     var initializeGameboardUI = function(){
         var array = initializeStartingArray();
         shuffle(array);
-        console.log(deck);
-        console.log("current Index in initialize game" + cardIndex);
         var row_num = 1;
         var col_num = 1;
         for (var i = 0; i < array.length; i++){
