@@ -65,13 +65,13 @@ $(document).ready(function() {
     $('#confirm').click( function(e) {
         e.preventDefault();
 
-        var auth_prompt = window.prompt("Enter password");
+        /*var auth_prompt = window.prompt("Enter password");
         var encrypted = CryptoJS.AES.encrypt(auth_prompt, "pw");
         var decrypted = CryptoJS.AES.decrypt(encrypted, "pw");
-        //todo: actually come up with password
+        //todo: actually come up with password */
 
         //only allow upload to database if correct pw is entered
-        if (decrypted.toString() == "70617373776f7264") {
+        //if (decrypted.toString() == "70617373776f7264") {
 
             var cards = {
                 reactant: {
@@ -110,9 +110,9 @@ $(document).ready(function() {
             $('#confirm').hide();
             $('#clear').hide();
             $('#nameToDepiction')[0].reset();
-        } else {
+       /* } else {
             alert("Password incorrect.  Upload failed.");
-        }
+        }*/
     });
 
     $('#clear').click( function(e) {
