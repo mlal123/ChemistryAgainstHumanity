@@ -69,6 +69,7 @@ $(document).ready(function(){
     var cardIndex = 0;
     var solutionIndex = 0;
     var cardsMap = {};
+    var deck_to_map = [];
 
     //if user is logged in --> in-class mode
     if ($('#username').html().length > 0) {
@@ -201,9 +202,16 @@ $(document).ready(function(){
             for (var i = 0; i < deck.length; i++){
                 cardsMap[deck[i].back] = deck[i];
             }
+
             //deck = JSON.parse(response);
             shuffle(deck);
             if (typeof(solutions) != "undefined") {
+                for (var j = 0; j < solutions.length; j++){
+                    var solution = solutions[j];
+                    deck_to_map.push(cardsMap[solution.product]);
+                    deck_to_map.push(cardsMap[solution.reactant]);
+                    deck_to_map.push(cardsMap[solution.reagent]);
+                }
                 var i = 0;
                 while (!solutionExists(deck.slice(0,16))) {
                     shuffle(deck);
@@ -239,11 +247,11 @@ $(document).ready(function(){
         var tmpIndex = cardIndex;
 
         //if out of bounds
-        if (cardIndex > deck.length ) return drawnCards;
+        if (cardIndex > deck_to_map.length ) return drawnCards;
 
-        if(deck.length - cardIndex < numToDraw){
-            for(var i = cardIndex; i < deck.length; i++){
-                drawnCards.push(deck[i]);
+        if(deck_to_map.length - cardIndex < numToDraw){
+            for(var i = cardIndex; i < deck_to_map.length; i++){
+                drawnCards.push(deck_to_map[i]);
                 cardsDrawn++;
                 cardIndex++;
             }
@@ -271,14 +279,14 @@ $(document).ready(function(){
                 totalSolutions++;
             }else{
                 // temp ignore solution count if index >= deck.length
-                if (tmpIndex >= deck.length){
+                if (tmpIndex >= deck_to_map.length){
                     // if out of bounds just put in next available card
-                    drawnCards.push(deck[cardIndex]);
+                    drawnCards.push(deck_to_map[cardIndex]);
                     cardIndex++;
                     cardsDrawn++;
                     continue;
                 }
-                var card = deck[tmpIndex];
+                var card = deck_to_map[tmpIndex];
                 if(!cardLeadsToSolutions(card)){
                     //use tmpIndex as a runner, but only increment card index when we actually swap it with a viable card
                     if (tmpIndex != cardIndex){
@@ -306,8 +314,8 @@ $(document).ready(function(){
     }//nextsolution
 
     var getNextCard = function(){
-        if (cardIndex >= deck.length) return;
-        var card = deck[cardIndex];
+        if (cardIndex >= deck_to_map.length) return;
+        var card = deck_to_map[cardIndex];
         cardIndex++;
         return card;
     }
@@ -402,14 +410,14 @@ $(document).ready(function(){
     var swapDeckPosition = function(card){
         //console.log("swapping deck position");
         //takes in card object
-        if (cardIndex >= deck.length) {
+        if (cardIndex >= deck_to_map.length) {
             console.log("end of deck");
             return;
         }
-        var index = deck.indexOf(card);
-        var tmp = deck[index];
-        deck[index] = deck[cardIndex];
-        deck[cardIndex] = tmp;
+        var index = deck_to_map.indexOf(card);
+        var tmp = deck_to_map[index];
+        deck_to_map[index] = deck_to_map[cardIndex];
+        deck_to_map[cardIndex] = tmp;
         cardIndex++;
     }
 
@@ -418,7 +426,7 @@ $(document).ready(function(){
         var iterations;
         solutionIndex = totalSolutions;
         if (solutions.length*3 < 16){
-            iterations = solutionsArr.length*3;
+            iterations = solutions.length*3;
         }else{
             iterations = 16;
         }
@@ -441,7 +449,7 @@ $(document).ready(function(){
         //new cards can be put in but I only want to permanently change card Index when solutions are submitted and swapped.
         while (array.length < iterations){
             //push next solution into queue
-            var nextCard = deck[tmpIndex];
+            var nextCard = deck_to_map[tmpIndex];
             if (!cardLeadsToSolutions(nextCard, "init", array)){
                 if (tmpIndex != cardIndex){
                     swapDeckPosition(nextCard);
@@ -458,6 +466,8 @@ $(document).ready(function(){
     }
 
     var initializeGameboardUI = function(){
+        console.log("deck to map");
+        console.log(deck_to_map);
         var array = initializeStartingArray();
         shuffle(array);
         var row_num = 1;
@@ -476,6 +486,10 @@ $(document).ready(function(){
         dragAndDrop();
     }
 
+    var shuffleGameBoard = function(){
+        var yo = $(".card");
+    }
+
     var updateGameboardUI = function(newCards) {
         var j = 0;
         if (typeof(newCards) != "undefined") {
@@ -491,6 +505,7 @@ $(document).ready(function(){
         }
         $('#result').empty();
         $('#div2 .sub_box').empty();
+        shuffleGameBoard();
     }
 
     //accepts JSON obj of cards {id:..., front:..., back:...}
