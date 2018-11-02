@@ -466,8 +466,6 @@ $(document).ready(function(){
     }
 
     var initializeGameboardUI = function(){
-        console.log("deck to map");
-        console.log(deck_to_map);
         var array = initializeStartingArray();
         shuffle(array);
         var row_num = 1;
@@ -486,8 +484,14 @@ $(document).ready(function(){
         dragAndDrop();
     }
 
-    var shuffleGameBoard = function(){
-        var yo = $(".card");
+    var gameBoardArray = function(){
+        var cards = $(".card");
+        var returnArray = [];
+        for (var i = 0; i < cards.length; i++){
+            var card_name = cards[i].childNodes[1].textContent;
+            returnArray.push(cardsMap[card_name]);
+        }
+        return returnArray;
     }
 
     var updateGameboardUI = function(newCards) {
@@ -505,7 +509,6 @@ $(document).ready(function(){
         }
         $('#result').empty();
         $('#div2 .sub_box').empty();
-        shuffleGameBoard();
     }
 
     //accepts JSON obj of cards {id:..., front:..., back:...}
@@ -581,8 +584,8 @@ $(document).ready(function(){
 
     var checkAnswer = function(answer) {
         for (var i=0;i<solutions.length;i++) { 
-            if (answer['reactant'] == solutions[i]['reactant'] &&
-            answer['reagent'] == solutions[i]['reagent'] &&
+            if ((answer['reactant'] == solutions[i]['reactant'] || answer['reactant'] == solutions[i]['reagent']) &&
+            (answer['reagent'] == solutions[i]['reactant'] || answer['reagent'] == solutions[i]['reagent']) &&
             answer['product'] == solutions[i]['product']) {
                 //solutions.splice(i, 1); //remove reaction from list of solutions
                 solutionsLength--;
