@@ -168,12 +168,10 @@ $(document).ready(function(){
             }
         }).then( function(response) {
             //solutions = JSON.parse(response);
-            console.log("generate solutions: generating solutions to client side")
             solutions = response;
             if (typeof(solutions) == "undefined" ) {
                 console.log("generateSolutions returned undefined");
             }else{
-                console.log("solutions is defined");
                 solutionsLength = solutions.length;
                 shuffle(solutions);
             }
@@ -191,7 +189,6 @@ $(document).ready(function(){
                 console.log(response)
             }
         }).then( function(response) {
-            console.log("generateCards: getting cards to client side");
             //response is json object of all cards from db
             deck = response;
             for (var i = 0; i < deck.length; i++){
@@ -200,7 +197,6 @@ $(document).ready(function(){
 
             //deck = JSON.parse(response);
             shuffle(deck);
-            console.log("solutions is " + typeof(solutions));
             if (typeof(solutions) != "undefined") {
                 console.log("solutions is defined for deck to be made");
                 for (var j = 0; j < solutions.length; j++){
@@ -217,9 +213,7 @@ $(document).ready(function(){
                     }
                     i++;
                 }
-                console.log("checking if solution exists");
                 if (solutionExists(deck.slice(0,16))) {
-                    console.log("solutionExists", solutionExists(deck.slice(0,16)));
                     handleDuplicates(deck.slice(0,16));
                     initializeGameboardUI();
                 }
@@ -230,7 +224,6 @@ $(document).ready(function(){
     }
 
     var initializeGame = function() {
-        console.log("initialize game");
 
         $('#div1').show();
         $('#div2').show();
