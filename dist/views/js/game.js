@@ -166,6 +166,7 @@ $(document).ready(function(){
                     "</div>" +
                 "</div>");
     }//makecard
+<<<<<<< HEAD
 
     var initializeGame = function() {
 
@@ -178,6 +179,9 @@ $(document).ready(function(){
         $('.asideRight').show();
 
 
+=======
+    var generateSolutions = function(){
+>>>>>>> f0bc84599851a463e7997c0be9485be787f0892b
         $.ajax({
             url: "/generateSolutions",
             data: {request: "req"},
@@ -192,11 +196,13 @@ $(document).ready(function(){
             if (typeof(solutions) == "undefined" ) {
                 console.log("generateSolutions returned undefined");
             }else{
-                console.log("not undefined");
                 solutionsLength = solutions.length;
                 shuffle(solutions);
             }
-        });
+        }).done(generateCards);
+    }
+
+    var generateCards = function(){
 
         $.ajax({
             url: '/generateCards',
@@ -216,6 +222,7 @@ $(document).ready(function(){
             //deck = JSON.parse(response);
             shuffle(deck);
             if (typeof(solutions) != "undefined") {
+                console.log("solutions is defined for deck to be made");
                 for (var j = 0; j < solutions.length; j++){
                     var solution = solutions[j];
                     deck_to_map.push(cardsMap[solution.product]);
@@ -230,9 +237,7 @@ $(document).ready(function(){
                     }
                     i++;
                 }
-
                 if (solutionExists(deck.slice(0,16))) {
-                    console.log("solutionExists", solutionExists(deck.slice(0,16)));
                     handleDuplicates(deck.slice(0,16));
                     initializeGameboardUI();
                 }
@@ -240,6 +245,19 @@ $(document).ready(function(){
             }
 
         });//ajax
+    }
+
+    var initializeGame = function() {
+
+        $('#div1').show();
+        $('#div2').show();
+        $('#submit').show();
+        $('#labels').show();
+        $('#start_game').hide();
+        $('.asideLeft').show();
+        $('.asideRight').show();
+
+        generateSolutions();
 
     }//initialgame
 
