@@ -137,6 +137,15 @@ $(document).ready(function(){
         $('#result').empty();
     }//returntoog
 
+    var returnToOriginalPositionFromLeft = function() {
+        //returns cards to previous positions (row#column#)
+        $('.asideLeft .card').each( function() {
+            $('#' + $(this).attr('data-op')).append($(this));
+        });
+        //initialize buttons
+        $('#result').empty();
+    }
+
     var shuffle = function(deck) {
         for (var i=0; i<deck.length; i++) {
             var shuffle_pos = Math.floor((deck.length - i) * Math.random()) + i;
@@ -167,7 +176,8 @@ $(document).ready(function(){
         $('#start_game').hide();
         $('.asideLeft').show();
         $('.asideRight').show();
-        
+
+
         $.ajax({
             url: "/generateSolutions",
             data: {request: "req"},
@@ -267,7 +277,7 @@ $(document).ready(function(){
                 for (var j = 0; j < solutionParts.length; j++){
                     var card_obj = solutionParts[j];
                     if (!solutionPartsInBoard.includes(card_obj)){
-                        // if required card is not already in board then push it 
+                        // if required card is not already in board then push it
                         drawnCards.push(card_obj);
                         swapDeckPosition(card_obj);
                         cardsDrawn++;
@@ -379,7 +389,7 @@ $(document).ready(function(){
     var getMissingComponentsOfSolution = function(reactionComponents, given_card){
         var index = reactionComponents.indexOf(given_card);
         //remove the one card that's given, so we're left with the remaining 2
-        reactionComponents.splice(index, 1); 
+        reactionComponents.splice(index, 1);
         return reactionComponents;
     }
 
@@ -406,7 +416,7 @@ $(document).ready(function(){
         }
         return false;
     }
-    
+
     var swapDeckPosition = function(card){
         //console.log("swapping deck position");
         //takes in card object
@@ -442,7 +452,7 @@ $(document).ready(function(){
                 swapDeckPosition(prod);
                 swapDeckPosition(reag);
                 swapDeckPosition(reac);
-            }    
+            }
         }
         var tmpIndex = cardIndex;
         //console.log(cardIndex);
@@ -461,7 +471,7 @@ $(document).ready(function(){
             }
             tmpIndex++;
         }
-        
+
         return array;
     }
 
@@ -573,8 +583,11 @@ $(document).ready(function(){
             var newCards = drawCards(3);
             //append new cards to grid
             setTimeout(function(){updateGameboardUI(newCards)}, 100);
+
+            returnToOriginalPositionFromLeft();
         } else {
             returnToOriginalPosition();
+            returnToOriginalPositionFromLeft();
             score = score - 0.5;
             $('#score').append("<p>Score: "+score+"</p>");
             $('#result').append("<p>Incorrect</p>");
@@ -583,7 +596,7 @@ $(document).ready(function(){
     }
 
     var checkAnswer = function(answer) {
-        for (var i=0;i<solutions.length;i++) { 
+        for (var i=0;i<solutions.length;i++) {
             if ((answer['reactant'] == solutions[i]['reactant'] || answer['reactant'] == solutions[i]['reagent']) &&
             (answer['reagent'] == solutions[i]['reactant'] || answer['reagent'] == solutions[i]['reagent']) &&
             answer['product'] == solutions[i]['product']) {

@@ -89,8 +89,6 @@ body {
 } */
 
 #submit{
-    margin-left: 45%;
-    margin-right: 45%;
     text-align: center;
 }
 
@@ -185,17 +183,23 @@ p{
   border: 1px dashed #24C6DC;
   margin-left: 6%;
   text-align: center;
-  border-radius: 20px
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .asideRight {
   float: right;
   height: 400px;
   width: 15%;
-  border: 1px dashed black;
+  border: 1px dashed rgba(12, 88, 160, 0.863); 
   margin-right: 6%;
   text-align: center;
   border-radius: 20px;
+  display: flex;
+  flex-direction: column-reverse;
 }
 
 .asideLeft button{
@@ -344,3 +348,8 @@ h1{
      -webkit-transition:3s;
      transition:3s ;
   }
+
+.asideLeft .sub_box {
+  width: 80%;
+  border-radius: 15px;
+}
