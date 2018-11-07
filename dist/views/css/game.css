@@ -132,10 +132,11 @@ ul li img {
     align-content: center;
 }
 .back{
+    display: flex;
     background-color: white;
     height: 100%;
     border-radius: 15px;
-    align-content: center;
+    justify-content: space-around;
     text-align:center;
 }
 
@@ -145,7 +146,7 @@ ul li img {
     top:50%;
     transform: translate(0, -50%);
     align-content: center;
-    padding-left: 35%;
+
 }
 
 .card{

@@ -166,8 +166,6 @@ $(document).ready(function(){
                     "</div>" +
                 "</div>");
     }//makecard
-<<<<<<< HEAD
-=======
 
     var initializeGame = function() {
 
@@ -181,7 +179,6 @@ $(document).ready(function(){
         generateSolutions();
     }
 
->>>>>>> b4bf46a7cebc16574a8c2e8d697252fdbf414448
     var generateSolutions = function(){
         $.ajax({
             url: "/generateSolutions",
@@ -593,8 +590,7 @@ $(document).ready(function(){
         if (checkAnswer(answer)) {
             score++;
             totalSolutions--;
-            $('#score').append("<p style='  font-size: 150%;
-              color: rgba(12, 88, 160, 0.863)'> Score: "+score+"</p>")
+            $('#score').append("<p> Score: "+score+"</p>")
             $('#result').append("<p>Correct</p>")
             if (gameOver){
                 console.log("Game Over");
@@ -686,6 +682,7 @@ $(document).ready(function(){
 }
     $('#start_game').on("click", function(e) {
         e.preventDefault();
+        console.log("hello");
         initializeGame();
     });
 
