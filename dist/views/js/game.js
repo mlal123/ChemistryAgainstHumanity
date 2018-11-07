@@ -166,7 +166,6 @@ $(document).ready(function(){
                     "</div>" +
                 "</div>");
     }//makecard
-<<<<<<< HEAD
 
     var initializeGame = function() {
 
@@ -177,11 +176,10 @@ $(document).ready(function(){
         $('#start_game').hide();
         $('.asideLeft').show();
         $('.asideRight').show();
+        generateSolutions();
+    }
 
-
-=======
     var generateSolutions = function(){
->>>>>>> f0bc84599851a463e7997c0be9485be787f0892b
         $.ajax({
             url: "/generateSolutions",
             data: {request: "req"},
