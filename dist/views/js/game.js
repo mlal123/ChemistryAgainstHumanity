@@ -166,6 +166,22 @@ $(document).ready(function(){
                     "</div>" +
                 "</div>");
     }//makecard
+<<<<<<< HEAD
+=======
+
+    var initializeGame = function() {
+
+        $('#div1').show();
+        $('#div2').show();
+        $('#submit').show();
+        $('#labels').show();
+        $('#start_game').hide();
+        $('.asideLeft').show();
+        $('.asideRight').show();
+        generateSolutions();
+    }
+
+>>>>>>> b4bf46a7cebc16574a8c2e8d697252fdbf414448
     var generateSolutions = function(){
         $.ajax({
             url: "/generateSolutions",
