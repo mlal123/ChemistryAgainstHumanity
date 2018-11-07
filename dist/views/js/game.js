@@ -166,22 +166,7 @@ $(document).ready(function(){
                     "</div>" +
                 "</div>");
     }//makecard
-<<<<<<< HEAD
-
-    var initializeGame = function() {
-
-        $('#div1').show();
-        $('#div2').show();
-        $('#submit').show();
-        $('#labels').show();
-        $('#start_game').hide();
-        $('.asideLeft').show();
-        $('.asideRight').show();
-
-
-=======
     var generateSolutions = function(){
->>>>>>> f0bc84599851a463e7997c0be9485be787f0892b
         $.ajax({
             url: "/generateSolutions",
             data: {request: "req"},
@@ -592,7 +577,8 @@ $(document).ready(function(){
         if (checkAnswer(answer)) {
             score++;
             totalSolutions--;
-            $('#score').append("<p>Score: "+score+"</p>")
+            $('#score').append("<p style='  font-size: 150%;
+              color: rgba(12, 88, 160, 0.863)'> Score: "+score+"</p>")
             $('#result').append("<p>Correct</p>")
             if (gameOver){
                 console.log("Game Over");
