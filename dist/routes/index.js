@@ -199,7 +199,7 @@ class IndexRoute extends route_1.BaseRoute {
             Object.keys(req.body).map(function (key) {
                 var back = req.body[key]['back'];
                 var image = req.body[key]['front'];
-                var encoded = encodeURIComponent(back);
+                var encoded = back.replace(/ +/g, "");
                 var img_src = "/SteveenBranch/" + encoded + ".png";
                 var img_src_to_file = "dist/public/SteveenBranch/" + encoded + ".png";
                 if (image.startsWith("http://opsin")){
