@@ -590,7 +590,7 @@ $(document).ready(function(){
         if (checkAnswer(answer)) {
             score++;
             totalSolutions--;
-            $('#score').append("<p>Score: "+score+"</p>")
+            $('#score').append("<p> Score: "+score+"</p>")
             $('#result').append("<p>Correct</p>")
             if (gameOver){
                 console.log("Game Over");
@@ -682,6 +682,7 @@ $(document).ready(function(){
 }
     $('#start_game').on("click", function(e) {
         e.preventDefault();
+        console.log("hello");
         initializeGame();
     });
 
