@@ -246,7 +246,7 @@ class IndexRoute extends route_1.BaseRoute {
             Object.keys(req.body).map(function (key) {
                 var back = req.body[key]['back'];
                 var image = req.body[key]['front'];
-                var encoded = encodeURIComponent(back);
+                var encoded = back.replace(/ +/g, "");
                 var img_src = "/SteveenBranch/" + encoded + ".png";
                 var img_src_to_file = "dist/public/SteveenBranch/" + encoded + ".png";
                 if (image.startsWith("http://opsin")){
@@ -312,7 +312,6 @@ class IndexRoute extends route_1.BaseRoute {
                 if (err)
                     throw err;
                 var response = [];
-                console.log(res2);
                 for (var i = 0; i < res2.length; i++){
                     var r = res2[i];
                     var react = new reaction.Reaction(r.reactant, r.reagent, r.product, r.active);

@@ -33,9 +33,9 @@
 </ul>
 
 <div style="min-height: 360px">
-	<p>OPSIN has failed to process the following request: /Hello</p>
+	<p>OPSIN has failed to process the following request: /nothing</p>
   <p>The reason given for this failure by OPSIN is as follows:</p>
-  <h3>Hello was uninterpretable due to the following section of the name: Hello  The following was not understandable in the context it was used: Hell</h3>
+  <h3>nothing was uninterpretable due to the following section of the name: nothing  The following was not understandable in the context it was used: nothing</h3>
   <p>If you think this is a bug please get file a bug on the <a href="https://bitbucket.org/dan2097/opsin/issues">issue tracker</a>.</p>
   <p>The server returned a 404 error code. For more information on the meaning of this error code see <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec10.html#sec10.4.5">here</a>.</p>
 	<p>Return to <a href="/">home page</a>.</p>
