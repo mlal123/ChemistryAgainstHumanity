@@ -167,18 +167,6 @@ $(document).ready(function(){
                 "</div>");
     }//makecard
 
-    var initializeGame = function() {
-
-        $('#div1').show();
-        $('#div2').show();
-        $('#submit').show();
-        $('#labels').show();
-        $('#start_game').hide();
-        $('.asideLeft').show();
-        $('.asideRight').show();
-        generateSolutions();
-    }
-
     var generateSolutions = function(){
         $.ajax({
             url: "/generateSolutions",

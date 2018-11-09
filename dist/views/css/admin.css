@@ -9,6 +9,11 @@ div > div.image {
     margin: 10px;
 }
 
+a {
+  text-decoration: none
+  color: black:
+}
+
 #downloadReactions, #downloadPoints {
   -webkit-transform:scale(1);
   -ms-transform:scale(1);

@@ -35,16 +35,15 @@ html
 
         input(type="hidden" name="textfail" value="Login failed. Your password or ONYEN were wrong. Go back and try logging in again.")
 
-        <center>
-            <input type="submit" name="submit" value="Play" class="button">
-        </center>
-    </form>
+        center
+            input(type="submit" name="submit" value="Play" class="button")
+      
 
-    form(action='/game' method='GET')
-        center
-            input(type="submit" value="Practice Game" class="button")
-    form(action='/admin' method='POST')
-        center
-          input(type='submit' value='Admin Page' class ="button")
+        form(action='/game' method='GET')
+            center
+                input(type="submit" value="Practice Game" class="button")
+        form(action='/admin' method='POST')
+            center
+                input(type='submit' value='Admin Page' class ="button")
   
      

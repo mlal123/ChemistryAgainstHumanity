@@ -181,22 +181,6 @@ $(document).ready(function() {
         $('#' + parent + ' .dz-message').show();
     });
 
-    $('button#exportReactions').click( function(e) {
-        e.preventDefault();
-        $.ajax({
-            url: '/exportReactions',
-            data: {req: 'req'},
-            method: 'GET',
-            error: function(response) {
-                alert("error exporting reactions");
-            }
-        }).then( function(response) {
-            $('#downloadReactions').show();
-            $('#downloadReactions').click( function(e) {
-                $(this).hide();
-            });
-        });
-    });
 
     $('button#exportPoints').click(function(e) {
         e.preventDefault();
@@ -207,13 +191,8 @@ $(document).ready(function() {
             error: function(response) {
                 alert("error exporting points");
             }
-        }).then(function(response) {
-            $('#downloadPoints').show();
-            $('#downloadPoints').click(function(e) {
-                $(this).hide();
-            });
         });
-    })
+    });
 
 
 

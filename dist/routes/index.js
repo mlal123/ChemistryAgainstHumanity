@@ -42,9 +42,7 @@ class IndexRoute extends route_1.BaseRoute {
         router.post("/generateSolutions", (req, res, next) => {
             new IndexRoute().generateSolutions(req, res, next);
         });
-        router.get("/exportReactions", (req, res, next) => {
-            new IndexRoute().exportReactions(req, res, next);
-        });
+
         router.get("/exportPoints", (req, res, next) => {
             new IndexRoute().exportPoints(req, res, next);
         });
@@ -114,6 +112,51 @@ class IndexRoute extends route_1.BaseRoute {
     }
 
     admin(req, res, next) {
+
+      // This DB connection updates the points.csv, in case the user downloads it.
+      mongo.MongoClient.connect(url, function (err, db) {
+          if (err)
+              throw err;
+          var dbo = db.db("chemistryagainsthumanity");
+          dbo.collection("users").find({}).toArray(function (err, docs) {
+              var path = 'dist/public/points.csv';
+              var data = new Array();
+              data.push([" "]);
+              data.push(["onyen", "points\n"]);
+              for (var i = 0; i < docs.length; i++) {
+                  data.push([docs[i]['onyen'], docs[i]['points'] + '\n']);
+              }
+              fs.writeFile(path, data, function (err, res2) {
+                  if (err)
+                      throw err;
+              db.close();
+              });
+          });
+      });
+
+      // This DB connection updates the reactions.csv, in case the user downloads it.
+      mongo.MongoClient.connect(url, function (err, db) {
+          if (err)
+              throw err;
+          var dbo = db.db("chemistryagainsthumanity");
+          dbo.collection("reactions").find({}).toArray(function (err, docs) {
+              var path = 'dist/public/reactions.csv';
+              var data = new Array();
+              data.push([" "]);
+              data.push(["id", "reactant", "reagent", "product\n"]);
+              for (var i = 0; i < docs.length; i++) {
+                  data.push([docs[i]['_id'], docs[i]['reactant'], docs[i]['reagent'], docs[i]['product'] + '\n']);
+              }
+
+              fs.writeFile(path, data, function (err, res2) {
+                  if (err)
+                      throw err;
+              db.close();
+              });
+            });
+          });
+
+
       var responseArray = new Array();
       mongo.MongoClient.connect(url, function (err, db) {
           if (err)
@@ -124,9 +167,12 @@ class IndexRoute extends route_1.BaseRoute {
               //console.log("Within mongo (res2): " + JSON.stringify(res2));
               responseArray = res2;
               //console.log("Within mongo (responseArray): " + JSON.stringify(responseArray));
+              db.close();
               res.render("admin", {responseArray: responseArray});
-              })
+
             })
+          })
+
     }
     getImage(req, res, next) {
         var json_obj = {};
@@ -151,6 +197,7 @@ class IndexRoute extends route_1.BaseRoute {
         //console.log("response = " + response);
         res.send(response);
     }
+
     game(req, res, next) {
         let options = {};
         this.render(req, res, "game", options);
@@ -176,7 +223,7 @@ class IndexRoute extends route_1.BaseRoute {
           });
       });
     }
-    
+
     addReaction(req, res, next) {
         mongo.MongoClient.connect(url, function (err, db) {
             if (err)
@@ -277,48 +324,6 @@ class IndexRoute extends route_1.BaseRoute {
         });
     }
 
-    exportReactions(req, res, next) {
-        mongo.MongoClient.connect(url, function (err, db) {
-            if (err)
-                throw err;
-            var dbo = db.db("chemistryagainsthumanity");
-            dbo.collection("reactions").find({}).toArray(function (err, docs) {
-                var path = 'dist/public/reactions.csv';
-                var data = new Array();
-                data.push([" "]);
-                data.push(["id", "reactant", "reagent", "product\n"]);
-                for (var i = 0; i < docs.length; i++) {
-                    data.push([docs[i]['_id'], docs[i]['reactant'], docs[i]['reagent'], docs[i]['product'] + '\n']);
-                }
-                fs.writeFile(path, data, function (err, res2) {
-                    if (err)
-                        throw err;
-                    res.download(path);
-                });
-            });
-        });
-    }
-    exportPoints(req, res, next) {
-        mongo.MongoClient.connect(url, function (err, db) {
-            if (err)
-                throw err;
-            var dbo = db.db("chemistryagainsthumanity");
-            dbo.collection("users").find({}).toArray(function (err, docs) {
-                var path = 'dist/public/points.csv';
-                var data = new Array();
-                data.push([" "]);
-                data.push(["onyen", "points\n"]);
-                for (var i = 0; i < docs.length; i++) {
-                    data.push([docs[i]['onyen'], docs[i]['points'] + '\n']);
-                }
-                fs.writeFile(path, data, function (err, res2) {
-                    if (err)
-                        throw err;
-                    res.download(path);
-                });
-            });
-        });
-    }
     resetPoints(req, res, next) {
         mongo.MongoClient.connect(url, function (err, db) {
             if (err)

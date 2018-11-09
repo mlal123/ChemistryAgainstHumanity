@@ -89,7 +89,11 @@ body {
 } */
 
 #submit{
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
     text-align: center;
+    padding: 5px;
 }
 
 table {
@@ -131,21 +135,21 @@ ul li img {
     border-radius: 15px;
     align-content: center;
 }
+
 .back{
-    display: flex;
     background-color: white;
     height: 100%;
     border-radius: 15px;
-    justify-content: space-around;
+
     text-align:center;
 }
 
 .back p{
     margin: 0;
-    position: absolute;
+    position: relative;
     top:50%;
     transform: translate(0, -50%);
-    align-content: center;
+
 
 }
 
@@ -190,6 +194,8 @@ p {
   align-items: center;
 }
 
+
+
 .asideRight {
   float: right;
   height: 400px;
@@ -203,12 +209,7 @@ p {
   justify-content: space-around;
 }
 
-.asideLeft button{
-  margin-top: 150%;
-}
-
 #score{
-  font-size: 150%;
   color: rgba(12, 88, 160, 0.863)
 }
 

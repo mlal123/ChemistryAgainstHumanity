@@ -27,8 +27,7 @@ html
         button(id='confirm' style='display: none;') Confirm
         button(id='clear' style='display: none;') Clear
         br
-        a(href="reactions.csv" button id='downloadReactions') Download Reactions
-        |File export currently not properly formatted (all in 1 line) --in progress--
+        a( href='reactions.csv') Download Reactions
         br
         div(id="instructions")
             p Status: Dr. Moy, you are clear to upload reactions at this time</p>
@@ -80,7 +79,7 @@ html
                 td(class='product' class=x id=reaction.product) #{reaction.product} 
                 -x += 1;                
         div(class='container')
-          a(href='points.csv' button id='downloadPoints') Download Points
+          a(href='points.csv') Download Points
           button(id='resetPoints') Reset
           a(href='/')
             button() Home
