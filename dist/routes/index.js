@@ -260,9 +260,13 @@ class IndexRoute extends route_1.BaseRoute {
                     });
                 }else{
                     var base64Data = image.replace(/^data:image\/png;base64,/, "");
-                    fs.writeFile(img_src_to_file, base64Data, 'base64', function(err){
+                    request.get({url: image, encoding: 'base64'}, function(err, response, body){
+                        fs.writeFile(img_src_to_file, base64Data, 'base64', function(err){
                         if (err)
                             console.log(err);
+                        else
+                            console.log("File was saved");
+                        });
                     });
                 }
                 var card_obj = {
