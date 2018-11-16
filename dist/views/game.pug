@@ -49,11 +49,15 @@ html
               div(class='sub_box droppable')
               div(class='sub_box droppable')
           div(class='asideRight' style='display:none')
-            div(id='submit' style="display: none;")
-                button(id='check') Submit
-                button(id='clear_answers') Clear
-            div(id="result")
-            div(id="score") Score: 
+              button(id='check') Submit
+              button(id='clear_answers') Clear
+              br
+              div(id="result")
+              button(id='diffEasy') Easy
+              button(id='diffMedium') Medium
+              button(id='diffHard') Hard
+              br
+              div(id="score") Score: 
           table(id='div1' style='display:none;')
               tr
                 th(id='r1c1' class='droppable')

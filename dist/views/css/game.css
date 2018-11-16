@@ -5,6 +5,7 @@ body {
     height: 100%;
     color:rgba(12, 88, 160, 0.863);
 }
+
 .content{
     width:100%;
     height:100%;
@@ -88,12 +89,8 @@ body {
     white-space: pre-wrap;
 } */
 
-#submit{
-    display: flex;
-    justify-content: space-around;
-    flex-direction: column;
-    text-align: center;
-    padding: 5px;
+#check {
+  margin-bottom: 5px;
 }
 
 table {
@@ -159,6 +156,7 @@ ul li img {
     border-radius: 15px;
     box-shadow: 0 4px 8px 0 rgba(0,0,0,.3);
 }
+
 .card:hover{
     box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
 }
@@ -194,8 +192,6 @@ p {
   align-items: center;
 }
 
-
-
 .asideRight {
   float: right;
   height: 400px;
@@ -206,7 +202,15 @@ p {
   border-radius: 20px;
   display: flex;
   flex-direction: column-reverse;
-  justify-content: space-around;
+  justify-content: space-between;
+}
+
+.asideRight button {
+  height: `15px;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+
 }
 
 #score{
@@ -214,11 +218,6 @@ p {
   font-size: 100%;
   color: rgba(12, 88, 160, 0.863)
   font-weight: bold;
-}
-
-.level {
-  
-
 }
 
 #result {
