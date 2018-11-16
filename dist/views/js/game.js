@@ -79,11 +79,14 @@ $(document).ready(function(){
     }
 
     let c = $(".card"); //flipping the images
-    c.flip({axis:'y', trigger:'click'});
+    c.flip({axis:'y', trigger:'click'}, yo($(this)));
 
     let c1 = $(".card1");
     c.flip({axis:'y', trigger:'click'});
 
+    function yo($this){
+      console.log($this);
+    }
 
     var dragAndDrop = function() {
         $(".card").draggable({
@@ -137,6 +140,8 @@ $(document).ready(function(){
         $('#result').empty();
     }//returntoog
 
+
+    // currentyly obsolete, but useful incase its needed
     var returnToOriginalPositionFromLeft = function() {
         //returns cards to previous positions (row#column#)
         $('.asideLeft .card').each( function() {
@@ -201,10 +206,12 @@ $(document).ready(function(){
         }).then( function(response) {
             //response is json object of all cards from db
             deck = response;
+            console.log(response);
+            console.log(solutions);
             for (var i = 0; i < deck.length; i++){
                 cardsMap[deck[i].back] = deck[i];
             }
-
+            console.log(cardsMap);
             //deck = JSON.parse(response);
             shuffle(deck);
             if (typeof(solutions) != "undefined") {
@@ -588,10 +595,10 @@ $(document).ready(function(){
             //append new cards to grid
             setTimeout(function(){updateGameboardUI(newCards)}, 100);
 
-            returnToOriginalPositionFromLeft();
+
         } else {
             returnToOriginalPosition();
-            returnToOriginalPositionFromLeft();
+
             score = score - 0.5;
             $('#score').append("<p>Score: "+score+"</p>");
             $('#result').append("<p>Incorrect</p>");
@@ -688,5 +695,12 @@ $(document).ready(function(){
         e.preventDefault();
         generateLeaderboard();
     });
+
+    $('.card').hover( function(e){
+      var $this = $(this);
+      console.log($this);
+    });
+
+
 
 });
