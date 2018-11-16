@@ -206,9 +206,20 @@ p {
   margin-top: 150%;
 }
 
+.level {
+  
+
+}
+
 #score{
-  font-size: 150%;
+  font-size: 100%;
   color: rgba(12, 88, 160, 0.863)
+  font-weight: bold;
+}
+
+#result {
+  font-size: 1vw;
+  font-weight: bold;
 }
 
 #buttons, #start_game {
