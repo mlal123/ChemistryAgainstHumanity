@@ -63,7 +63,7 @@ $(document).ready(function(){
     var gameOver = false;
     var practiceMode;
     var difficulty = {"easy": 5, "medium": 3, "hard": 1};
-    var currentDifficulty = difficulty["easy"];
+    var currentDifficulty = difficulty["medium"];
     var totalSolutions = currentDifficulty;
     var solutionsLength;
     var cardIndex = 0;
@@ -585,8 +585,8 @@ $(document).ready(function(){
         if (checkAnswer(answer)) {
             score++;
             totalSolutions--;
-            $('#score').append("<p> Score: "+score+"</p>")
-            $('#result').append("<p>Correct</p>")
+            $('#score').html("Score: "+score.toFixed(1));
+            $('#result').html("Incorrect");
             if (gameOver){
                 console.log("Game Over");
             }
@@ -600,8 +600,8 @@ $(document).ready(function(){
             returnToOriginalPosition();
 
             score = score - 0.5;
-            $('#score').append("<p>Score: "+score+"</p>");
-            $('#result').append("<p>Incorrect</p>");
+            $('#score').html("Score: "+score.toFixed(1));
+            $('#result').html("Incorrect");
             //$('#clear_answers').show();
         }
     }
