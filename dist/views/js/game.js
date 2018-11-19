@@ -470,6 +470,13 @@ $(document).ready(function(){
         //new cards can be put in but I only want to permanently change card Index when solutions are submitted and swapped.
         while (array.length < iterations){
             //push next solution into queue
+
+            if (tmpIndex >= deck_to_map.length){
+                // if out of bounds just put in next available card
+                array.push(deck_to_map[cardIndex]);
+                cardIndex++;
+                continue;
+            }
             var nextCard = deck_to_map[tmpIndex];
             if (!cardLeadsToSolutions(nextCard, "init", array)){
                 if (tmpIndex != cardIndex){
