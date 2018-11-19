@@ -45,40 +45,41 @@ html
             
           div(class='asideLeft' style='display:none')
               p(style='color: white') Card Bank:
-              div(class='sub_box droppable')
-              div(class='sub_box droppable')
-              div(class='sub_box droppable')
+              div(class='sub_box droppable slot')
+              div(class='sub_box droppable slot')
+              div(class='sub_box droppable slot')
           div(class='asideRight' style='display:none')
               button(id='check') Submit
               button(id='clear_answers') Clear
               br
-              div(id="result")
               button(id='diffEasy') Easy
               button(id='diffMedium') Medium
               button(id='diffHard') Hard
               br
-              div(id="score") Score: 
+              div(id="result")
+              div(id="score") Score:
+              div(id="diff") Difficulty: EASY 
           table(id='div1' style='display:none;')
               tr
-                th(id='r1c1' class='droppable')
-                th(id='r1c2' class='droppable')
-                th(id='r1c3' class='droppable')
-                th(id='r1c4' class='droppable')
+                th(id='r1c1' class='droppable slot')
+                th(id='r1c2' class='droppable slot')
+                th(id='r1c3' class='droppable slot')
+                th(id='r1c4' class='droppable slot')
               tr
-                th(id='r2c1' class='droppable')
-                th(id='r2c2' class='droppable')
-                th(id='r2c3' class='droppable')
-                th(id='r2c4' class='droppable')
+                th(id='r2c1' class='droppable slot')
+                th(id='r2c2' class='droppable slot')
+                th(id='r2c3' class='droppable slot')
+                th(id='r2c4' class='droppable slot')
               tr
-                th(id='r3c1' class='droppable')
-                th(id='r3c2' class='droppable')
-                th(id='r3c3' class='droppable')
-                th(id='r3c4' class='droppable')
+                th(id='r3c1' class='droppable slot')
+                th(id='r3c2' class='droppable slot')
+                th(id='r3c3' class='droppable slot')
+                th(id='r3c4' class='droppable slot')
               tr
-                th(id='r4c1' class='droppable')
-                th(id='r4c2' class='droppable')
-                th(id='r4c3' class='droppable')
-                th(id='r4c4' class='droppable')
+                th(id='r4c1' class='droppable slot')
+                th(id='r4c2' class='droppable slot')
+                th(id='r4c3' class='droppable slot')
+                th(id='r4c4' class='droppable slot')
           table(id="labels" style="display: none;")
               tr
                 th
@@ -91,11 +92,11 @@ html
                   p PRODUCT
           table(id="div2" style="display: none;")
               tr
-                th(class='sub_box droppable' id="reactant")
+                th(class='sub_box droppable slot' id="reactant")
                 th(class='symbol' id="plus") +
-                th(class='sub_box droppable' id="reagent")
+                th(class='sub_box droppable slot' id="reagent")
                 th(class='symbol' id="arrow") =
-                th(class='sub_box droppable' id="product")
+                th(class='sub_box droppable slot' id="product")
 
           
         

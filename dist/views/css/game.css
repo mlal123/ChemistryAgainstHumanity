@@ -215,14 +215,22 @@ p {
 }
 
 #score{
-  font-size: 100%;
+  font-size: 2vw;
   color: rgba(12, 88, 160, 0.863);
   font-weight: bold;
+  margin: auto;
 }
 
 #result {
-  font-size: 1vw;
+  font-size: 2vw;
   font-weight: bold;
+  margin: auto;
+}
+
+#diff {
+  font-size: 2vw;
+  font-weight: bold;
+  margin: auto;
 }
 
 #buttons, #start_game {
@@ -253,6 +261,7 @@ p {
     transition:.5s;
     display:inline-block;
     margin-top: 5px;
+    font-size: 1.5vw;
 }
 
 button:focus{
