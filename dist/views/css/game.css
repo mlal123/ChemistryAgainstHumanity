@@ -202,21 +202,21 @@ p {
   border-radius: 20px;
   display: flex;
   flex-direction: column-reverse;
-  justify-content: space-between;
+
 }
 
 .asideRight button {
-  height: `15px;
-  width: 90%;
-  margin-left: 5%;
-  margin-right: 5%;
+  height: 30px;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  border-color: rgba(12, 88, 160, 0.863);
 
 }
 
 #score{
-  margin-top: 150%;
   font-size: 100%;
-  color: rgba(12, 88, 160, 0.863)
+  color: rgba(12, 88, 160, 0.863);
   font-weight: bold;
 }
 
@@ -236,10 +236,6 @@ p {
 #start_game, #admin_button {
     width: 25%;
     margin-left: 38%;
-}
-
-.asideRight button {
-  border-color: rgba(12, 88, 160, 0.863);
 }
 
  button{
