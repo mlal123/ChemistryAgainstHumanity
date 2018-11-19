@@ -173,7 +173,6 @@ class IndexRoute extends route_1.BaseRoute {
 
             })
           })
-
     }
     getImage(req, res, next) {
         var json_obj = {};
