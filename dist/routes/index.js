@@ -8,6 +8,18 @@ const card = require('./card.js');
 const request = require('request');
 const reaction = require('./reaction.js');
 var url = "mongodb+srv://admin:Password123@chemistryagainsthumanity-5zhct.mongodb.net";
+var passport = require('passport');
+var saml = require('passport-saml');
+var user = "Not Logged In";
+var samlStrategy = new saml.Strategy({
+    callbackUrl: '/plogin/callback',
+    entryPoint: 'https://sso.unc.edu/idp/profile/SAML2/Redirect/SSO',
+    issuer: '/passport',
+    cert: fs.readFileSync('sso-signing.pem', 'utf8')
+}, function(profile, done){
+    return done(null, profile);
+});
+passport.use(samlStrategy);
 
 class IndexRoute extends route_1.BaseRoute {
     static create(router) {
@@ -27,11 +39,26 @@ class IndexRoute extends route_1.BaseRoute {
         router.post("/getImage", (req, res, next) => {
             new IndexRoute().getImage(req, res, next);
         });
+        router.get("/passport", (req, res, next) => {
+            new IndexRoute().passport(req, res, next);
+        });
+        router.get("/login", (req, res, next) =>{
+            new IndexRoute().login(req, res, next);
+        });
+        router.get("/shibtest", (req, res, next) =>{
+            new IndexRoute().plogin(req, res, next);
+        });
+        router.post("/plogin/callback", (req, res, next) =>{
+            new IndexRoute().callback(req, res, next);
+        });
         router.post("/game", (req, res, next) => {
             new IndexRoute().login(req, res, next);
         });
         router.get("/game", (req, res, next) => {
             new IndexRoute().game(req, res, next);
+        });
+        router.get("/practiceGame", (req, res, next) => {
+            new IndexRoute().practiceGame(req, res, next);
         });
         router.post("/addReaction", (req, res, next) => {
             new IndexRoute().addReaction(req, res, next);
@@ -59,17 +86,92 @@ class IndexRoute extends route_1.BaseRoute {
             new IndexRoute().toggleReaction(req, res, next);
         });
     }
+
     constructor() {
         super();
     }
+
     index(req, res, next) {
+        var onyen = req.get('uid');
+        user = onyen;
+        var isAdmin = false;
+        var admins = ["mlal123", "kerandby", "pozefsky", "moy"];
         this.title = "Home | Chemistry Against Humanity";
         let options = {
-            "message": "Welcome to Chemistry Against Humanity"
+           "message": "Welcome to Chemistry Against Humanity",
+           "user": onyen
         };
+        if (admins.includes(onyen)){
+                isAdmin = true;
+                options.isAdmin = true;
+        }else{
+                options.isAdmin = false;
+        }
+
+        mongo.MongoClient.connect(url, function (err, db) {
+                if (err)
+                    throw err;
+                var dbo = db.db("chemistryagainsthumanity");
+                var user_entry = {
+                    onyen: onyen,
+                    points: 0,
+                    isAdmin: isAdmin
+                };
+                dbo.collection("users").update({ "onyen": onyen }, { "$setOnInsert": user_entry }, { upsert: true }, function (err, res) {
+                        if (err)
+                                throw err;
+                        else
+                                console.log("new user");
+
+                });
+            });
         this.render(req, res, "index", options);
     }
+
+    passport(req, res, next){
+        request('https://sso.unc.edu/idp', function(error, response, resultData){
+            if (!error && response.statusCode == 200) {
+                // do your stuff here..
+                console.log(response.statusCode);
+            }else{
+                console.log("problem!");
+            }
+        });
+    }
+
+    callback(req, res, next){
+        passport.authenticate('saml', {failureREdirect: '/', failureFlash: true}), function(req, res){
+            console.log(res);
+            res.redirect('/');
+        }
+    }
+    shibtest(req, res, next){
+      console.log("we in here");
+    }
+
     login(req, res, next) {
+        let options = {};
+        /*
+        request("https://smartacids.chem.unc.edu/", function(error, response, body){
+                if (!error && response.statusCode == 200){
+                        console.log(response.headers);
+                }
+                if (error){
+                        console.log("error: " + error);
+                }
+        });
+        https.get('https://smartacids.chem.unc.edu/', (res) => {
+                console.log('statusCode:', res.statusCode);
+                console.log('headers:', res.headers['Remote-User']);
+
+                res.on('data', (d) => {
+                        console.log(d);
+                 });
+
+        }).on('error', (e) => {
+                console.error(e);
+        });*/
+        //console.log(res);
         this.title = "Login";
         let options = {};
         if (req.body.status === "pass") {
@@ -200,6 +302,11 @@ class IndexRoute extends route_1.BaseRoute {
     }
 
     game(req, res, next) {
+        let options = {"user": user};
+        this.render(req, res, "game", options);
+    }
+
+    practiceGame(req, res, next) {
         let options = {};
         this.render(req, res, "game", options);
     }
@@ -359,6 +466,7 @@ class IndexRoute extends route_1.BaseRoute {
         console.log(req.body);
         var onyenToUpdate = req.body['onyen'];
         var points = parseFloat(req.body['points']);
+
         mongo.MongoClient.connect(url, function (err, db) {
             if (err)
                 throw err;

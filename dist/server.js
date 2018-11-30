@@ -8,6 +8,8 @@ const path = require("path");
 const errorHandler = require("errorhandler");
 const methodOverride = require("method-override");
 const index_1 = require("./routes/index");
+
+
 class Server {
     static bootstrap() {
         return new Server();

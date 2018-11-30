@@ -70,7 +70,7 @@ $(document).ready(function(){
     var solutionIndex = 0;
     var cardsMap = {};
     var deck_to_map = [];
-
+    console.log($("#username"));
     //if user is logged in --> in-class mode
     if ($('#username').html().length > 0) {
         practiceMode = false;
@@ -218,22 +218,16 @@ $(document).ready(function(){
         }).then( function(response) {
             //response is json object of all cards from db
             deck = response;
-            console.log(response);
-            console.log(solutions);
+           // console.log(response);
+           // console.log(solutions);
             for (var i = 0; i < deck.length; i++){
                 cardsMap[deck[i].back] = deck[i];
             }
-            console.log(cardsMap);
             //deck = JSON.parse(response);
             shuffle(deck);
             if (typeof(solutions) != "undefined") {
-                console.log("solutions is defined for deck to be made");
-                for (var j = 0; j < solutions.length; j++){
-                    var solution = solutions[j];
-                    deck_to_map.push(cardsMap[solution.product]);
-                    deck_to_map.push(cardsMap[solution.reactant]);
-                    deck_to_map.push(cardsMap[solution.reagent]);
-                }
+               // console.log("solutions is defined for deck to be made");
+                populateDeckToMap();
                 var i = 0;
                 while (!solutionExists(deck.slice(0,16))) {
                     shuffle(deck);
@@ -250,6 +244,17 @@ $(document).ready(function(){
             }
 
         });//ajax
+    }
+
+    var populateDeckToMap = function(){
+        deck_to_map = [];
+        for (var j = 0; j < solutions.length; j++){
+            var solution = solutions[j];
+            deck_to_map.push(cardsMap[solution.product]);
+            deck_to_map.push(cardsMap[solution.reactant]);
+            deck_to_map.push(cardsMap[solution.reagent]);
+        }
+        console.log(deck_to_map);
     }
 
     var initializeGame = function() {
@@ -355,7 +360,7 @@ $(document).ready(function(){
         //console.log("swapping deck position");
         //takes in card object
         if (cardIndex >= deck_to_map.length) {
-            console.log("end of deck");
+           // console.log("end of deck");
             return;
         }
         var index = deck_to_map.indexOf(card);
@@ -363,7 +368,8 @@ $(document).ready(function(){
         deck_to_map[index] = deck_to_map[cardIndex];
         deck_to_map[cardIndex] = tmp;
         cardIndex++;
-    }    
+        console.log(deck_to_map);
+    }
 
     var grabSolutions = function(card){
         //grab the solutions that this card is a part of
@@ -463,6 +469,7 @@ $(document).ready(function(){
         resetScore();
         resetResult();
         clearBoard();
+        populateDeckToMap();
         initializeGameboardUI();
     }
 
@@ -474,6 +481,7 @@ $(document).ready(function(){
         score = 0.0; //current points
         gameOver = false;
         totalSolutions = currentDifficulty;
+        solutionsLength = solutions.length;
         cardIndex = 0;
         solutionIndex = 0;
     }
@@ -548,7 +556,7 @@ $(document).ready(function(){
         }//while
 
         return drawnCards;
-    }//temp    
+    }//temp
 
     var gameBoardArray = function(){
         var cards = $(".card");
@@ -637,18 +645,34 @@ $(document).ready(function(){
 
         // if correct
         if (checkAnswer(answer)) {
-            score++;
+            score = score + 1;
+            console.log(score);
             totalSolutions--;
             $('#score').html("Score: "+score.toFixed(1));
-            $('#result').html("Incorrect");
+            $('#result').html("");
             if (gameOver){
                 console.log("Game Over");
+                if (!practiceMode){
+                    $.ajax({
+                    url: '/updateLeaderboard',
+                    data: {
+                        onyen: $('#username').html(),
+                        points: score
+                    },
+                    method: 'POST',
+                    error: function(response) {
+                        console.log('error updating leaderboard');
+                    }
+                    }).then(function(response) {
+                        score = 0.0;
+                        console.log("leaderboard updated");
+                    });
+                }
             }
             //draw new cards to replace
             var newCards = drawCards(3);
             //append new cards to grid
             setTimeout(function(){updateGameboardUI(newCards)}, 100);
-
 
         } else {
             returnToOriginalPosition();
@@ -706,7 +730,6 @@ $(document).ready(function(){
     if (!practiceMode) {
         console.log("in-class mode");
         var updateLeaderboard = setInterval(function() {
-
             $.ajax({
                 url: '/updateLeaderboard',
                 data: {
@@ -731,7 +754,6 @@ $(document).ready(function(){
 }
     $('#start_game').on("click", function(e) {
         e.preventDefault();
-        console.log("hello");
         initializeGame();
     });
 

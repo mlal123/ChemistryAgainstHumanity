@@ -4,6 +4,7 @@ html
       style
           include css/index.css
     body
+      h1(id='username')=user
       div(id='header')
           img(src="http://i68.tinypic.com/9bhxqg.png" alt="LOGO" width="50%" align="middle")
       form( action="https://onyen.unc.edu/cgi-bin/unc_id/authenticator.pl" name="form1" method="POST")
@@ -35,15 +36,16 @@ html
 
         input(type="hidden" name="textfail" value="Login failed. Your password or ONYEN were wrong. Go back and try logging in again.")
 
-        center
-            input(type="submit" name="submit" value="Play" class="button")
+      center
+        input(type="submit" name="submit" value="Play" class="button")
       
 
       form(action='/game' method='GET')
         center
             input(type="submit" value="Practice Game" class="button")
-      form(action='/admin' method='POST')
-        center
+      if isAdmin
+        form(action='/admin' method='POST')
+          center
             input(type='submit' value='Admin Page' class ="button")
   
      
