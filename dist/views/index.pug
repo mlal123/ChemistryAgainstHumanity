@@ -27,7 +27,7 @@ html
         input(type="hidden" name="getpid" value="0")
 
         input(type="hidden" name="targetpass" value="localhost:8080")
-        
+
         input(type="hidden" name="textpass" value="Login success. Click continue below to return back to the Chemistry Against Humanity Website.")
 
         input(type="hidden" name="locationfailtimeout" value="https://onyen.unc.edu/cgi-bin/unc_id/authenticator.pl")
@@ -36,16 +36,15 @@ html
 
         input(type="hidden" name="textfail" value="Login failed. Your password or ONYEN were wrong. Go back and try logging in again.")
 
-      center
-        input(type="submit" name="submit" value="Play" class="button")
-      
 
-      form(action='/game' method='GET')
+
+      form(action='/index/' + user + '/game' method='GET')
+        center
+            input(type="submit" value="Play Game" class="button")
+      form(action='/index/' + user + '/practiceGame' method='GET')
         center
             input(type="submit" value="Practice Game" class="button")
       if isAdmin
-        form(action='/admin' method='POST')
+        form(action='/index/' + user + '/admin' method='POST')
           center
             input(type='submit' value='Admin Page' class ="button")
-  
-     

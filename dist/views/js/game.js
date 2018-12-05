@@ -149,7 +149,7 @@ $(document).ready(function(){
             $('#' + $(this).attr('data-op')).append($(this));
         });
         //initialize buttons
-        $('#result').empty();
+        //$('#result').empty();
     }//returntoog
 
 
@@ -368,7 +368,6 @@ $(document).ready(function(){
         deck_to_map[index] = deck_to_map[cardIndex];
         deck_to_map[cardIndex] = tmp;
         cardIndex++;
-        console.log(deck_to_map);
     }
 
     var grabSolutions = function(card){
@@ -581,7 +580,7 @@ $(document).ready(function(){
             dragAndDrop();
             getOriginalPosition();
         }
-        $('#result').empty();
+        //$('#result').empty();
         $('#div2 .sub_box').empty();
     }
 
@@ -634,8 +633,8 @@ $(document).ready(function(){
 
     var submitAnswerHandler = function() {
         //remove previous answer check
-        $('#result').empty();
-        $('#score').empty();
+        //$('#result').empty();
+        //$('#score').empty();
 
         var answer = {
             reactant: $('#reactant').find('img').attr('alt'),
@@ -645,35 +644,31 @@ $(document).ready(function(){
 
         // if correct
         if (checkAnswer(answer)) {
-            score = score + 1;
-            console.log(score);
+            score = score + ((1/currentDifficulty)*3);
+            //console.log(score);
             totalSolutions--;
             $('#score').html("Score: "+score.toFixed(1));
-            $('#result').html("");
-            if (gameOver){
-                console.log("Game Over");
-                if (!practiceMode){
-                    $.ajax({
-                    url: '/updateLeaderboard',
-                    data: {
-                        onyen: $('#username').html(),
-                        points: score
-                    },
-                    method: 'POST',
-                    error: function(response) {
-                        console.log('error updating leaderboard');
-                    }
-                    }).then(function(response) {
-                        score = 0.0;
-                        console.log("leaderboard updated");
-                    });
+            $('#result').html("Correct");
+            if (!practiceMode){
+                $.ajax({
+                url: '/updateLeaderboard',
+                data: {
+                    onyen: $('#username').html(),
+                    points: score
+                },
+                method: 'POST',
+                error: function(response) {
+                    console.log('error updating leaderboard');
                 }
+                }).then(function(response) {
+                // console.log("leaderboard updated");
+                });
             }
+
             //draw new cards to replace
             var newCards = drawCards(3);
             //append new cards to grid
             setTimeout(function(){updateGameboardUI(newCards)}, 100);
-
         } else {
             returnToOriginalPosition();
 
@@ -681,6 +676,9 @@ $(document).ready(function(){
             $('#score').html("Score: "+score.toFixed(1));
             $('#result').html("Incorrect");
             //$('#clear_answers').show();
+        }
+        if (gameOver){
+            $('#result').html("Level Complete. Pick a level to go again.");
         }
     }
 
@@ -726,32 +724,8 @@ $(document).ready(function(){
         });
     }
 
-    //update leaderboard every 5 mins
-    if (!practiceMode) {
-        console.log("in-class mode");
-        var updateLeaderboard = setInterval(function() {
-            $.ajax({
-                url: '/updateLeaderboard',
-                data: {
-                    onyen: $('#username').html(),
-                    points: score
-                },
-                method: 'POST',
-                error: function(response) {
-                    console.log('error updating leaderboard');
-                }
-            }).then(function(response) {
-                console.log("leaderboard updated");
-            });
 
-            if (gameOver) {
-                setTimeout(function() {
-                    clearInterval(updateLeaderboard);
-                }, 300000);
-            }
-        }, 300000);
 
-}
     $('#start_game').on("click", function(e) {
         e.preventDefault();
         initializeGame();
@@ -759,7 +733,9 @@ $(document).ready(function(){
 
     $('#check').on("click", function(e) {
         e.preventDefault();
-        submitAnswerHandler();
+        if (!gameOver){
+            submitAnswerHandler();
+        }
     });
 
     $('#clear_answers').on("click", function(e) {

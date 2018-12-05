@@ -33,8 +33,6 @@ class Server {
         this.app.use(cookieParser("SECRET_GOES_HERE"));
         this.app.use(methodOverride());
 
-        this.app.use(auth.connect(basic));
-
         this.app.use(function (err, req, res, next) {
             err.status = 404;
             next(err);

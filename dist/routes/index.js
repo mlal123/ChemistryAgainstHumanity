@@ -10,7 +10,6 @@ const reaction = require('./reaction.js');
 var url = "mongodb+srv://admin:Password123@chemistryagainsthumanity-5zhct.mongodb.net";
 var passport = require('passport');
 var saml = require('passport-saml');
-var user = "Not Logged In";
 var samlStrategy = new saml.Strategy({
     callbackUrl: '/plogin/callback',
     entryPoint: 'https://sso.unc.edu/idp/profile/SAML2/Redirect/SSO',
@@ -30,10 +29,10 @@ class IndexRoute extends route_1.BaseRoute {
         router.post("/", (req, res, next) => {
             new IndexRoute().index(req, res, next);
         });
-        router.post("/admin", (req, res, next) => {
+        router.post("/index/:user/admin", (req, res, next) => {
             new IndexRoute().admin(req, res, next);
         });
-        router.get("/admin", (req, res, next) => {
+        router.get("/index/:user/admin", (req, res, next) => {
             res.send("You either do not have permission to access this page, or you are trying to access it directly.  If you are an admin, please authenticate and try again.");
         });
         router.post("/getImage", (req, res, next) => {
@@ -51,13 +50,13 @@ class IndexRoute extends route_1.BaseRoute {
         router.post("/plogin/callback", (req, res, next) =>{
             new IndexRoute().callback(req, res, next);
         });
-        router.post("/game", (req, res, next) => {
+        router.post("/index/login", (req, res, next) => {
             new IndexRoute().login(req, res, next);
         });
-        router.get("/game", (req, res, next) => {
+        router.get("/index/:user/game", (req, res, next) => {
             new IndexRoute().game(req, res, next);
         });
-        router.get("/practiceGame", (req, res, next) => {
+        router.get("/index/:user/practiceGame", (req, res, next) => {
             new IndexRoute().practiceGame(req, res, next);
         });
         router.post("/addReaction", (req, res, next) => {
@@ -85,6 +84,10 @@ class IndexRoute extends route_1.BaseRoute {
         router.post("/toggleReaction", (req, res, next) => {
             new IndexRoute().toggleReaction(req, res, next);
         });
+
+        router.get("/index/:user", (req, res, next) => {
+            new IndexRoute().indexUser(req, res, next);
+        });
     }
 
     constructor() {
@@ -92,10 +95,16 @@ class IndexRoute extends route_1.BaseRoute {
     }
 
     index(req, res, next) {
-        var onyen = req.get('uid');
-        user = onyen;
+        var onyen = req.get("uid");
+        res.redirect('/index/' + onyen);
+    }
+    indexUser(req, res, next) {
+        /*      var user = req.params.user;
+        var options = { "user": user }; */
+        console.log(req.params.user);
         var isAdmin = false;
-        var admins = ["mlal123", "kerandby", "pozefsky", "moy"];
+        var onyen = req.params.user;
+        var admins = ["mlal123", "kerandby", "pozefsky", "cmoy"];
         this.title = "Home | Chemistry Against Humanity";
         let options = {
            "message": "Welcome to Chemistry Against Humanity",
@@ -126,8 +135,7 @@ class IndexRoute extends route_1.BaseRoute {
                 });
             });
         this.render(req, res, "index", options);
-    }
-
+    };
     passport(req, res, next){
         request('https://sso.unc.edu/idp', function(error, response, resultData){
             if (!error && response.statusCode == 200) {
@@ -208,6 +216,7 @@ class IndexRoute extends route_1.BaseRoute {
                 });
             });
         }
+
         else {
             options.status = "fail";
         }
@@ -275,6 +284,7 @@ class IndexRoute extends route_1.BaseRoute {
 
             })
           })
+
     }
     getImage(req, res, next) {
         var json_obj = {};
@@ -301,13 +311,13 @@ class IndexRoute extends route_1.BaseRoute {
     }
 
     game(req, res, next) {
-        let options = {"user": user};
-        this.render(req, res, "game", options);
+        let options = {"user": req.params.user};
+        res.render("game", options);
     }
 
     practiceGame(req, res, next) {
         let options = {};
-        this.render(req, res, "game", options);
+        res.render("game", options);
     }
 
     toggleReaction(req,res,next) {
@@ -470,7 +480,7 @@ class IndexRoute extends route_1.BaseRoute {
             if (err)
                 throw err;
             var dbo = db.db("chemistryagainsthumanity");
-            dbo.collection("users").update({ "onyen": onyenToUpdate }, { "$set": { "points": points } }, function (err, res2) {
+            dbo.collection("users").update({ "onyen": onyenToUpdate }, { "$max": { "points": points } }, function (err, res2) {
                 if (err)
                     throw err;
                 var response = JSON.stringify(res2);
